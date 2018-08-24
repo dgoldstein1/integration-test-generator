@@ -4,7 +4,7 @@
   "description": "CLI tool to generate HTTP / HTTPS tests against a swagger file",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,14 @@
   "bugs": {
     "url": "https://github.com/dgoldstein1/integration-test-generator/issues"
   },
-  "homepage": "https://github.com/dgoldstein1/integration-test-generator#readme"
+  "bin": {
+    "integration-test-generator": "./src/entryPoint.js"
+  },
+  "homepage": "https://github.com/dgoldstein1/integration-test-generator#readme",
+  "dependencies": {
+    "jest": "^23.5.0"
+  },
+  "devDependencies": {
+    "chalk": "^2.4.1"
+  }
 }
