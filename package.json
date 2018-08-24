@@ -4,7 +4,17 @@
   "description": "CLI tool to generate HTTP / HTTPS tests against a swagger file",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "pre-commit": "lint-staged"
+  },
+  "pre-commit": [
+    "pre-commit"
+  ],
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",
@@ -27,6 +37,9 @@
     "jest": "^23.5.0"
   },
   "devDependencies": {
-    "chalk": "^2.4.1"
+    "chalk": "^2.4.1",
+    "lint-staged": "^7.2.2",
+    "pre-commit": "^1.2.2",
+    "prettier": "^1.14.2"
   }
 }
