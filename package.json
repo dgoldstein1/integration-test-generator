@@ -35,6 +35,7 @@
   "homepage": "https://github.com/dgoldstein1/integration-test-generator#readme",
   "dependencies": {
     "chalk": "^2.4.1",
+    "create-react-app": "^1.5.2",
     "swagger-parser": "^5.0.4"
   },
   "devDependencies": {
