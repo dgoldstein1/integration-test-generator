@@ -1,0 +1,23 @@
+{
+  "name": "integration-test-generator",
+  "version": "0.1.0",
+  "description": "CLI tool to generate HTTP / HTTPS tests against a swagger file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dgoldstein1/integration-test-generator.git"
+  },
+  "keywords": [
+    "test",
+    "generator"
+  ],
+  "author": "deciphernow",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dgoldstein1/integration-test-generator/issues"
+  },
+  "homepage": "https://github.com/dgoldstein1/integration-test-generator#readme"
+}
