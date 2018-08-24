@@ -2,6 +2,6 @@
 
 describe("generateApp", () => {
   it("temp", () => {
-    expect(true)
-  })
-})
+    expect(true);
+  });
+});

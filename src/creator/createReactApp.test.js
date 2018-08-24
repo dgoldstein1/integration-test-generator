@@ -2,6 +2,6 @@
 
 describe("generate react app", () => {
   it("temp", () => {
-    expect(true)
-  })
-})
+    expect(true);
+  });
+});

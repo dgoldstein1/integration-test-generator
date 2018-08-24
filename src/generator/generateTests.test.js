@@ -2,6 +2,6 @@
 
 describe("generateTests", () => {
   it("temp", () => {
-    expect(true)
-  })
-})
+    expect(true);
+  });
+});

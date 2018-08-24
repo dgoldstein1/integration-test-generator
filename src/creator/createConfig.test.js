@@ -2,6 +2,6 @@
 
 describe("createConfig", () => {
   it("temp", () => {
-    expect(true)
-  })
-})
+    expect(true);
+  });
+});
