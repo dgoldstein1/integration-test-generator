@@ -9,16 +9,16 @@ describe("logger", () => {
     });
     it("logs out info", () => {
       logger.log("test", "INFO");
-      expect(console.log.mock.calls[0]).toEqual(["INFO", ":", "test"]);
+      expect(console.log.mock.calls[0]).toEqual(["INFO : test"]);
     });
     it("logs out error", () => {
       logger.log("test", "ERROR");
-      expect(console.log.mock.calls[0]).toEqual(["ERROR", ":", "test"]);
+      expect(console.log.mock.calls[0]).toEqual(["ERROR : test"]);
     });
   });
   describe("logAndExitOnError", () => {
     it("does not exit if error code is zero", () => {
-      logger.logAndExitOnError("test", 0);
+      logger.logAndExitOnError("test", undefined);
       expect(true);
     });
     it("exits on error", () => {

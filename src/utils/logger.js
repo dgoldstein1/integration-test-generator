@@ -20,19 +20,23 @@ let log = (msg, level = "INFO") => {
   if (!LoggingLevels[level])
     console.error("Bad logging level " + level + " passed to log()");
   // else log normally
-  console.log(LoggingLevels[level](level), ":", LoggingLevels[level](msg));
+  console.log(LoggingLevels[level](level + " : " + msg));
 };
 
 /**
  * logs, but exists if level is "ERROR"
  **/
-let logAndExitOnError = (msg, exitCode = 0) => {
+let logAndExitOnError = (msg, err = "") => {
   let level = "INFO";
-  if (exitCode !== 0) level = "ERROR";
-  log(msg, level);
 
-  // quit if error
-  if (level === "ERROR") process.exit(1);
+  if (err) {
+    level = "ERROR";
+    log(msg + err, level);
+    process.exit(1);
+  } else {
+    level = "SUCCESS";
+    log(msg, level);
+  }
 };
 
 module.exports = {
