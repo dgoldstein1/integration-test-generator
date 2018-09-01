@@ -26,27 +26,32 @@ swaggerParser.parseSwagger(args.swagger, ({ err, api }) => {
   logger.logAndExitOnError("Loaded swagger API", err);
   swaggerAPI = api;
   // on success create react app
-  // createApp();
-  let generateTestsSuccess = generateTests.generateAll(
-    swaggerAPI,
-    args.out,
-    args.baseEndpoint
-  );
+  generateTestsFromSwagger();
 });
 
-// // create react app project locally
-// let createApp = () => {
-//   createReactApp.createReactApp(args.out, ({ err }) => {
-//     logger.logAndExitOnError("Create react app", err);
-//     // on success generate tests
-//     generateTests()
-//   });
-// };
+// generate tests from template files
+let generateTestsFromSwagger = () => {
+  generateTests.generateAll(
+    swaggerAPI,
+    args.out,
+    args.endpoint,
+    ({ err, tests }) => {
+      console.log(JSON.stringify(tests, null, 2));
+      logger.logAndExitOnError("Generated tests from Swagger API", err);
+      // success, tests were successfully generated!!
+      createApp(tests);
+    }
+  );
+};
 
-// // generate tests from template files
-// let generateTets = () => {
-//   let generateTests = generateTests.generateTests(args.swagger, args.out)
-// }
+// create react app project locally
+let createApp = tests => {
+  createReactApp.createReactApp(args.out, tests, ({ err }) => {
+    logger.logAndExitOnError("Created app with tests", err);
+    // on success generate tests
+    generateTests();
+  });
+};
 
 // generate main app.js file
 

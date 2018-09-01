@@ -14,10 +14,17 @@ const positiveTestTemplate = require("../templates/postitiveTest");
 let generateAll = (swaggerObject, out, baseEndpoint, callback) => {
   let Mockgen = Swagmock(swaggerObject);
   endpoint = baseEndpoint;
-  Mockgen.responses({}, (error, responseMocks) => {
-    // console.log(JSON.stringify(mock))
-    Mockgen.requests({}, (error, requestMocks) => {
-      // console.log(JSON.stringify(requestMocks))
+  // generate mock responses
+  Mockgen.responses({}, (err, responseMocks) => {
+    if (err) return callback({ err });
+    // generate mock requests
+    Mockgen.requests({}, (err, requestMocks) => {
+      if (err) callback({ err });
+      // we have all mock requests / responses. Let's generate the tests
+      let tests = generateTests(requestMocks, responseMocks, baseEndpoint);
+      if (tests.error) return callback({ err: tests.error });
+      // success!
+      callback({ tests: tests });
     });
   });
 };
@@ -27,7 +34,7 @@ let generateAll = (swaggerObject, out, baseEndpoint, callback) => {
  * @param {json} example responses
  * @return {json} {error : "string", tests : json object}
  **/
-let generateTests = (requests, responses, endpoint = "") => {
+let generateTests = (requests, responses, baseEndpoint = "") => {
   let tests = {};
   // loop through outer endpoins
   for (let endpoint in requests) {
@@ -38,7 +45,7 @@ let generateTests = (requests, responses, endpoint = "") => {
         requests[endpoint][method],
         responses[endpoint][method],
         method,
-        endpoint
+        baseEndpoint
       );
       // check for error
       if (testObject.error) return { error: testObject.error };
@@ -61,7 +68,7 @@ let generateTestObject = (
   sampleRequest,
   sampleResponse,
   method,
-  endpoint = ""
+  baseEndpoint = ""
 ) => {
   if (method === "delete") method = "del";
   if (!api[method]) return { error: "Method " + method + " is not supported" };
@@ -71,7 +78,7 @@ let generateTestObject = (
       sampleRequest,
       sampleResponse,
       method,
-      endpoint
+      baseEndpoint
     )
   ];
   // create test object
