@@ -8,7 +8,7 @@ const swaggerParser = require("./parser/parseSwagger");
 const argParser = require("./parser/argParser");
 
 // creators
-const createReactApp = require("./creator/createReactApp");
+const createApp = require("./creator/createApp");
 
 // generators
 const generateTests = require("./generator/generateTests");
@@ -36,7 +36,6 @@ let generateTestsFromSwagger = () => {
     args.out,
     args.endpoint,
     ({ err, tests }) => {
-      console.log(JSON.stringify(tests, null, 2));
       logger.logAndExitOnError("Generated tests from Swagger API", err);
       // success, tests were successfully generated!!
       createApp(tests);
@@ -46,7 +45,7 @@ let generateTestsFromSwagger = () => {
 
 // create react app project locally
 let createApp = tests => {
-  createReactApp.createReactApp(args.out, tests, ({ err }) => {
+  createApp.createApp(args.out, tests, ({ err }) => {
     logger.logAndExitOnError("Created app with tests", err);
     // on success generate tests
     generateTests();

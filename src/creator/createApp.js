@@ -1,4 +1,4 @@
-// createReactApp.js
+// createApp.js
 
 var execute = require("../utils/execute");
 
@@ -7,9 +7,9 @@ var execute = require("../utils/execute");
  * @param {string} path of where to create the app
  * @return {{err : string}} in callback
  **/
-let createReactApp = function(path, tests, callback) {
+let createApp = function(path, tests, callback) {
   console.log("creating app, this may take a few minutes..");
-  let command = " ./src/creator/createReactApp.sh " + path;
+  let command = " ./src/creator/createApp.sh " + path;
   console.log("$ " + command);
   execute.execute(command, err => {
     if (err) {
@@ -20,5 +20,5 @@ let createReactApp = function(path, tests, callback) {
 };
 
 module.exports = {
-  createReactApp
+  createApp
 };
