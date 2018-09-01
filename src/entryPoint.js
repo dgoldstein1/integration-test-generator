@@ -38,7 +38,9 @@ let generateTestsFromSwagger = () => {
     ({ err, tests }) => {
       logger.logAndExitOnError("Generated tests from Swagger API", err);
       // success, tests were successfully generated!!
-      createApp.copyTests(args.out, tests, () => {});
+      createApp.copyTests(args.out, tests, err => {
+        logger.logAndExitOnError("Created Test files", err);
+      });
       // createUI(tests);
     }
   );

@@ -27,35 +27,64 @@ let createApp = function(path, tests, callback) {
  **/
 let copyTests = function(path, tests, callback) {
   let mapping = {};
+  let filePath = `${path}/src/tests`;
   // loop over tests creating new test file and adding it to the mapping
   for (let endpoint in tests) {
     for (let method in tests[endpoint]) {
       for (let test in tests[endpoint][method]) {
         // create test file
-        let filePath = `${path}/src/tests`;
-        let fileName = `${method}-${endpoint}-${test}.js`.replace(/\//g, "");
+        let fileID = `${method}-${endpoint}-${test}.js`.replace(/\//g, "");
         let testFunction = tests[endpoint][method][test].test;
         // add a new singular file for each test
-        let command =
-          "./src/creator/createTestFile.sh " +
-          filePath +
-          " " +
-          fileName +
-          ' "' +
-          testFunction +
-          '"';
-        console.log("$ " + command);
-        execute.execute(command, err => {
-          if (err) {
-            console.error(err);
-            return callback(err);
-          }
-        });
+        _createFileHelper(filePath, fileID, testFunction, false, callback);
+        // add to mapping
+        let localPath = method + "/" + endpoint;
+        // check if exists
+        mapping[[localPath]] = mapping[[localPath]] || {};
+        // add to JSON
+        mapping[[localPath]][[fileID]] = {
+          name: tests[endpoint][method][test].name,
+          ID: fileID,
+          success: undefined
+        };
       }
     }
   }
-  // success! everything was created
-  callback();
+  // one last command to create mapping
+  _createFileHelper(
+    filePath,
+    "mapping.js",
+    JSON.stringify(mapping),
+    true,
+    callback
+  );
+};
+
+// helper for creating js file with content as default export
+let _createFileHelper = (
+  filePath,
+  fileID,
+  content,
+  force = false,
+  callback
+) => {
+  let command =
+    "./src/creator/createTestFile.sh " +
+    filePath +
+    " " +
+    fileID +
+    ' "' +
+    content +
+    '" ' +
+    force;
+  execute.execute(command, err => {
+    if (err) {
+      console.error(err);
+      callback(err);
+    }
+    // success. Return final callback if doing mapping.js
+    if (fileID === "mapping.js") callback();
+  });
 };
 
 module.exports = {

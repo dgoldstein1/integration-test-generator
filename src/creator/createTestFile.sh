@@ -4,9 +4,11 @@
 filePath=$1
 fileName=$2
 testFunction=$3
+force=$4
 
-if [[ ! -e "$filePath/$fileName" ]]; then
+if [! -e "$filePath/$fileName"] ||  [ $force == "true" ] ; then
+    echo "$filePath/$fileName"
 	mkdir -p "$filePath"
-    touch "$filePath/$fileName"
+    > "$filePath/$fileName"
     echo "export deafult { $testFunction }" >> "$filePath/$fileName"
 fi
