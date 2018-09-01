@@ -10,7 +10,7 @@ var execute = require("../utils/execute");
 let createApp = function(path, tests, callback) {
   console.log("creating app, this may take a few minutes..");
   let command = " ./src/creator/createApp.sh " + path;
-  console.log("$ " + command);
+  console.log("bash$ " + command);
   execute.execute(command, err => {
     if (err) {
       err = "Command failed : " + err.cmd;
@@ -23,7 +23,7 @@ let createApp = function(path, tests, callback) {
       }
       // success! all tests have been added. Let's not prettify everthing :)
       let command = "prettier --write " + path + "/src/*";
-      console.log("$ " + command);
+      console.log("bash$ " + command);
       execute.execute(command, callback);
     });
   });
@@ -36,6 +36,7 @@ let createApp = function(path, tests, callback) {
 let copyTests = function(path, tests, callback) {
   let mapping = {};
   let filePath = `${path}/src/tests`;
+  let commands = [];
   // loop over tests creating new test file and adding it to the mapping
   for (let endpoint in tests) {
     for (let method in tests[endpoint]) {
@@ -44,7 +45,8 @@ let copyTests = function(path, tests, callback) {
         let fileID = `${method}-${endpoint}-${test}.js`.replace(/\//g, "");
         let testFunction = tests[endpoint][method][test].test;
         // add a new singular file for each test
-        _createFileHelper(filePath, fileID, testFunction, false, callback);
+        // push arguments to stack
+        commands.push({ filePath, fileID, testFunction, callback });
         // add to mapping
         let localPath = method + "/" + endpoint;
         // check if exists
@@ -58,7 +60,7 @@ let copyTests = function(path, tests, callback) {
       }
     }
   }
-  // one last command to create mapping
+  // create mapping
   let command =
     "> " +
     filePath +
@@ -67,18 +69,19 @@ let copyTests = function(path, tests, callback) {
     "' >> " +
     filePath +
     "/mapping.js";
-  console.log("$ " + command);
-  execute.execute(command, callback);
+  console.log("bash$ " + command);
+  execute.execute(command, err => {
+    if (err) return callback(err);
+    // success! mapping created, let's create the rest of the files :)
+    for (let i in commands) {
+      _createFileHelper(commands[i]);
+    }
+    callback();
+  });
 };
 
 // helper for creating js file with content as default export
-let _createFileHelper = (
-  filePath,
-  fileID,
-  content,
-  force = false,
-  callback
-) => {
+let _createFileHelper = ({ filePath, fileID, content, callback }) => {
   let command =
     "./src/creator/createTestFile.sh " +
     filePath +
@@ -86,16 +89,12 @@ let _createFileHelper = (
     fileID +
     ' "' +
     content +
-    '" ' +
-    force;
+    '"';
   execute.execute(command, err => {
-    console.log(command);
     if (err) {
       console.error(err);
       callback(err);
     }
-    // success. Return final callback if doing mapping.js
-    if (fileID === "mapping.js") callback();
   });
 };
 
