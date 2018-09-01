@@ -15,7 +15,8 @@ describe("generateTests", () => {
     it("generates correct test object", () => {
       let tests = generateTests.generateTests(
         swaggerRequestMock,
-        swaggerResponseMock
+        swaggerResponseMock,
+        "/this/is/an/endpoint"
       );
       expect(tests.error).toBeUndefined();
       expect(tests).toEqual(generatedTests);
@@ -26,11 +27,6 @@ describe("generateTests", () => {
       expect(
         generateTests.generateTestObject(undefined, undefined, "bad_method")
       ).toEqual({ error: "Method bad_method is not supported" });
-    });
-    it("does not throw an error if type of method is supported", () => {
-      expect(
-        generateTests.generateTestObject(undefined, undefined, "get").error
-      ).toBeUndefined();
     });
     it("generates a valid test object for get", () => {
       let sampleRequest = {

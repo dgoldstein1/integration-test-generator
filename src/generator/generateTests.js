@@ -4,7 +4,8 @@ const Swagmock = require("swagmock");
 const api = require("../utils/api");
 const _ = require("lodash");
 
-let endpoint = "";
+// templates
+const positiveTestTemplate = require("../templates/postitiveTest");
 
 /**
  * generate tests which are then copied to the create react app path
@@ -26,7 +27,7 @@ let generateAll = (swaggerObject, out, baseEndpoint, callback) => {
  * @param {json} example responses
  * @return {json} {error : "string", tests : json object}
  **/
-let generateTests = (requests, responses) => {
+let generateTests = (requests, responses, endpoint = "") => {
   let tests = {};
   // loop through outer endpoins
   for (let endpoint in requests) {
@@ -36,7 +37,8 @@ let generateTests = (requests, responses) => {
       let testObject = generateTestObject(
         requests[endpoint][method],
         responses[endpoint][method],
-        method
+        method,
+        endpoint
       );
       // check for error
       if (testObject.error) return { error: testObject.error };
@@ -52,45 +54,32 @@ let generateTests = (requests, responses) => {
  * @param {json} sample request
  * @param {json} sample response object
  * @param {string} method (e.g. "get", "patch", etc)
+ * @param {string} base endpoint
  * @return {json} {error : "string", testObject : {json}}
  **/
-let generateTestObject = (sampleRequest, sampleResponse, method) => {
+let generateTestObject = (
+  sampleRequest,
+  sampleResponse,
+  method,
+  endpoint = ""
+) => {
   if (method === "delete") method = "del";
   if (!api[method]) return { error: "Method " + method + " is not supported" };
   // generate the tests
-  let tests = [_generatePositiveTest(sampleRequest, sampleResponse, method)];
+  let tests = [
+    positiveTestTemplate.positiveTest(
+      sampleRequest,
+      sampleResponse,
+      method,
+      endpoint
+    )
+  ];
   // create test object
   let testObject = {};
   tests.forEach(test => {
     testObject[test.name] = test;
   });
   return { testObject };
-};
-
-/**
- * generates positive test, simple assertion of request === response
- * @param {json} sample request
- * @param {json} sample response
- * @param {string} method type
- * @return {json} test { name : "string", test : function(), success : undefined }
- **/
-let _generatePositiveTest = (sampleRequest, sampleResponse, method) => {
-  let test = function() {
-    return api[method](
-      endpoint + sampleRequest.path,
-      sampleRequest.request.body
-    ).then(res => {
-      return Promise.resolve({
-        success: _.isEqual(res.data, sampleResponse.responses["200"])
-      });
-    });
-  };
-  // cast test to string object
-  return {
-    name: "PositiveTest",
-    test: String(test),
-    success: undefined
-  };
 };
 
 module.exports = {
