@@ -34,9 +34,15 @@
   },
   "homepage": "https://github.com/dgoldstein1/integration-test-generator#readme",
   "dependencies": {
+    "axios": "^0.18.0",
+    "axios-mock-adapter": "^1.15.0",
     "chalk": "^2.4.1",
     "create-react-app": "^1.5.2",
-    "swagger-parser": "^5.0.4"
+    "lodash": "^4.17.10",
+    "open-api-test-generator": "^0.1.5",
+    "swagger-parser": "^5.0.4",
+    "swagmock": "^1.0.0",
+    "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {
     "jest": "^23.5.0",
