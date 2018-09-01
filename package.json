@@ -40,6 +40,7 @@
     "create-react-app": "^1.5.2",
     "lodash": "^4.17.10",
     "open-api-test-generator": "^0.1.5",
+    "prettier": "^1.14.2",
     "swagger-parser": "^5.0.4",
     "swagmock": "^1.0.0",
     "whatwg-fetch": "^2.0.4"
