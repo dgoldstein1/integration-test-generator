@@ -8,7 +8,7 @@ log_success_or_failure() {
         echo "$(tput setab 2 )--- SUCCESS --- ${1} $(tput sgr0)"
     else
         echo "$(tput setab 1 )--- FAILURE --- ${1} $(tput sgr0)"
-       	return 1
+       	exit 1
     fi
 }
 
@@ -24,10 +24,10 @@ npm install
 log_success_or_failure "install dependencies"
 
 # set yourself as the owner of everything
-log_success_or_failure "changing owernship permissions"
 chown -R $USER:$USER ./*
+log_success_or_failure "changing owernship permissions"
 
 # run tests
-npm run test -- --bail --ci
-log_success_or_failure "running tests"
+npm run testCI
+log_success_or_failure "run tests"
 

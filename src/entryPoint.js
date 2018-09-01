@@ -38,17 +38,17 @@ let generateTestsFromSwagger = () => {
     ({ err, tests }) => {
       logger.logAndExitOnError("Generated tests from Swagger API", err);
       // success, tests were successfully generated!!
-      createApp(tests);
+      createApp.copyTests(args.out, tests, () => {});
+      // createUI(tests);
     }
   );
 };
 
 // create react app project locally
-let createApp = tests => {
+let createUI = tests => {
   createApp.createApp(args.out, tests, ({ err }) => {
     logger.logAndExitOnError("Created app with tests", err);
     // on success generate tests
-    generateTests();
   });
 };
 
