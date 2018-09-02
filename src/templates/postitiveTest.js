@@ -10,7 +10,7 @@
  **/
 let positiveTest = (sampleRequest, sampleResponse, method, endpoint = "") => {
   let test = `function() {
-    return api['${String(method)}']('${endpoint}${
+    return api['${String(method)}']('endpoint + ${
     sampleRequest.request.pathname
   }',${JSON.stringify(sampleRequest.request.body || {})}).then(res => {
       return Promise.resolve({

@@ -9,6 +9,10 @@ if [[ ! -f "$filePath/$fileName" ]]; then
 	echo "$filePath/$fileName"
 	mkdir -p "$filePath"
     > "$filePath/$fileName"
-    echo "export deafult { $testFunction }" >> "$filePath/$fileName"
+    echo "import api from '../api/api'" >> "$filePath/$fileName"
+    echo "import endpoint from '../definitions/endpoint'" >> "$filePath/$fileName"
+    echo "" >> "$filePath/$fileName"
+    echo "export default $testFunction" >> "$filePath/$fileName"
+    prettier --write "$filePath/$fileName"
 fi
 

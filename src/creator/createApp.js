@@ -8,7 +8,7 @@ var chain = require("../utils/chain");
  * @param {string} path of where to create the app
  * @return {{err : string}} in callback
  **/
-let createApp = function(path, tests, callback) {
+let createApp = function(path, tests, swaggerPath, callback) {
   console.log("creating app, this may take a few minutes..");
   let command = " ./src/creator/createApp.sh " + path;
   console.log("bash$ " + command);
@@ -22,10 +22,21 @@ let createApp = function(path, tests, callback) {
       if (err) {
         return callback(err);
       }
-      // success! all tests have been added. Let's not prettify everthing :)
-      let command = "prettier --write " + path + "/src/*";
-      console.log("bash$ " + command);
-      execute.execute(command, callback);
+      // create mapping
+      createMappingFile(path, tests, err => {
+        if (err) return callback(err);
+        // success! all tests have been added. Let's not prettify everthing :)
+        let command =
+          "cp " +
+          swaggerPath +
+          " " +
+          path +
+          "/src/definitions/swagger.json && prettier --write " +
+          path +
+          "/src/*";
+        console.log("bash$ " + command);
+        execute.execute(command, callback);
+      });
     });
   });
 };
