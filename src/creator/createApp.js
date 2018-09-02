@@ -1,6 +1,7 @@
 // createApp.js
 
 var execute = require("../utils/execute");
+var chain = require("../utils/chain");
 
 /**
  * runs the create-react-app command
@@ -69,13 +70,12 @@ let createMappingFile = function(path, tests, callback) {
 /**
  * copies test files to path/src/tests
  * @param {string} the base path of the new project
- * @param {json} test objects (from generateTests)
+ * @param {json} test objects (from generatecallbackcallbackTests)
  * @param {function} callback when finished
  **/
 let copyTests = function(path, tests, callback) {
   let filePath = `${path}/src/tests`;
   let commands = [];
-
   // loop over tests creating new test file and adding it to the mapping
   for (let endpoint in tests) {
     for (let method in tests[endpoint]) {
@@ -92,22 +92,11 @@ let copyTests = function(path, tests, callback) {
   // check that there are new tests to create
   if (commands.length == 0) return callback();
   // chain create file commands
-
-  let chain = (err, i, func, cmds) => {
-    // check if previous command succeeded
-    if (err) return callback(err);
-    // move onto next function, if there is one
-    i++;
-    if (!cmds[i]) return callback();
-    // call next function
-    cmds[i].callback = err => chain(err, i, func);
-    chain(func(cmds[i]));
-  };
-  chain(undefined, 0, _createFileHelper, commands);
+  chain(undefined, -1, _createFileHelper, commands, callback);
 };
 
 // helper for creating js file with content as default export
-let _createFileHelper = ({ filePath, fileID, content, callback }) => {
+let _createFileHelper = ({ filePath, fileID, content }, callback) => {
   let command =
     "./src/creator/createTestFile.sh " +
     filePath +
@@ -121,6 +110,7 @@ let _createFileHelper = ({ filePath, fileID, content, callback }) => {
       console.error(err);
       callback(err);
     }
+    callback();
   });
 };
 
