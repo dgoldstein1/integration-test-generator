@@ -2,6 +2,8 @@
 
 var execute = require("../utils/execute");
 var chain = require("../utils/chain");
+var mappingTemplate = require("../templates/mapping");
+var generatefileID = require("../generator/generateFileID");
 
 /**
  * runs the create-react-app command
@@ -41,11 +43,6 @@ let createApp = function(path, tests, swaggerPath, callback) {
   });
 };
 
-// helper for creating file IDs
-let _getFileID = function(method, endpoint, test) {
-  return `${method}-${endpoint}-${test}.js`.replace(/\//g, "");
-};
-
 /**
  * creates path/src/tests/mapping.js
  * @param {string} base path of the new new project
@@ -53,36 +50,38 @@ let _getFileID = function(method, endpoint, test) {
  * @param {function callback} callback when finished
  **/
 let createMappingFile = function(path, tests, callback) {
-  let filePath = `${path}/src/tests`;
-  let mapping = {};
-  for (let endpoint in tests) {
-    for (let method in tests[endpoint]) {
-      for (let test in tests[endpoint][method]) {
-        // add test to mapping if not already there
-        let localPath = method + "/" + endpoint;
-        let fileID = _getFileID(method, endpoint, test);
-        mapping[localPath] = mapping[localPath] || {};
-        // add to JSON
-        mapping[localPath][fileID] = {
-          name: tests[endpoint][method][test].name,
-          ID: fileID,
-          success: undefined
-        };
-      }
-    }
-  }
-  // create mapping
-  let command =
-    "> " +
-    filePath +
-    "/mapping.js && echo 'export default " +
-    JSON.stringify(mapping, null, 2) +
-    "' >> " +
-    filePath +
-    "/mapping.js";
-  console.log("bash$ " + command);
-  // execute command
-  execute.execute(command, callback);
+  // let filePath = `${path}/src/tests`;
+  // let mapping = {};
+  // let imports = ""
+  // for (let endpoint in tests) {
+  //   for (let method in tests[endpoint]) {
+  //     for (let test in tests[endpoint][method]) {
+  //       // add test to mapping if not already there
+  //       let fileID = _getFileID(method, endpoint, test);
+  //       mapping[endpoint] = mapping[endpoint] || {};
+  //       // add to JSON
+  //       mapping[endpoint][fileID] = {
+  //         name: tests[endpoint][method][test].name,
+  //         ID:  fileID,
+  //         test : fileID
+  //       };
+  //       imports += 'import ' + fileID + ' from "' + fileID + '.js";'
+  //     }
+  //   }
+  // }
+
+  // // add in stringified mapping
+  // // create command
+  // let command =
+  //   "./src/creator/createTestFile.sh " +
+  //   filePath +
+  //   " " +
+  //   "mapping" +
+  //   " '" +
+  //   mappingTemplate() +
+  //   "'";
+  // execute.execute(command, callback);
+  callback();
 };
 
 /**
@@ -99,7 +98,7 @@ let copyTests = function(path, tests, callback) {
     for (let method in tests[endpoint]) {
       for (let test in tests[endpoint][method]) {
         // create test file
-        let fileID = _getFileID(method, endpoint, test);
+        let fileID = generatefileID(endpoint, test);
         let content = tests[endpoint][method][test].test;
         // add a new singular file for each test
         // push arguments to stack

@@ -23,8 +23,7 @@ let positiveTest = (sampleRequest, sampleResponse, method, endpoint = "") => {
   // remove white space from string
   return {
     name: "PositiveTest",
-    test: test.replace(/\n|\r/g, ""),
-    success: undefined
+    test: test.replace(/\n|\r/g, "")
   };
 };
 

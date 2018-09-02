@@ -17,17 +17,30 @@ describe("createApp", () => {
       };
       createApp.copyTests(path, mockTestsObject, callback);
     });
-  });
-  describe("mapping", () => {
-    it("creates parseable mapping file from tests", done => {
+    it("creates the expected test file", done => {
       let callback = err => {
-        expect(err).toBeNull();
-        execute.execute("cat -n " + path + "/src/tests/mapping.js", err => {
-          expect(err).toBeNull();
-          done();
-        });
+        expect(err).toBeUndefined();
+        execute.execute(
+          "diff src/creator/mocks/expectedTest.js src/creator/testFiles/src/tests/getexamplesserviceshelloPositiveTest.js",
+          err => {
+            expect(err).toBeNull();
+            done();
+          }
+        );
       };
-      createApp.createMappingFile(path, mockTestsObject, callback);
+      createApp.copyTests(path, mockTestsObject, callback);
     });
   });
+  // describe("mapping", () => {
+  //   it("creates parseable mapping file from tests", done => {
+  //     let callback = err => {
+  //       expect(err).toBeUndefined();
+  //       execute.execute("diff src/creator/mocks/expectedMapping.js src/creator/testFiles/src/tests/mapping.js", err => {
+  //         expect(err).toBeNull();
+  //         done();
+  //       });
+  //     };
+  //     createApp.createMappingFile(path, mockTestsObject, callback);
+  //   });
+  // });
 });
