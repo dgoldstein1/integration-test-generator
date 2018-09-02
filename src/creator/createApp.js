@@ -30,26 +30,18 @@ let createApp = function(path, tests, callback) {
 };
 
 /**
- * 1) copies test files to path/src/tests
- * 2) creates mapping file in path/src/tests/mapping.js
+ * creates path/src/tests/mapping.js
+ * @param {string} base path of the new new project
+ * @param {json} test objects from generate tests
+ * @param {function callback} callback when finished
  **/
-let copyTests = function(path, tests, callback) {
-  let mapping = {};
+let createMappingFile = function(path, tests, callback) {
   let filePath = `${path}/src/tests`;
-  let commands = [];
-  // loop over tests creating new test file and adding it to the mapping
+  let mapping = {};
   for (let endpoint in tests) {
     for (let method in tests[endpoint]) {
       for (let test in tests[endpoint][method]) {
-        // create test file
-        let fileID = `${method}-${endpoint}-${test}.js`.replace(/\//g, "");
-        let testFunction = tests[endpoint][method][test].test;
-        // add a new singular file for each test
-        // push arguments to stack
-        commands.push({ filePath, fileID, testFunction, callback });
-        // add to mapping
-        let localPath = method + "/" + endpoint;
-        // check if exists
+        // add test to mapping if not already there
         mapping[localPath] = mapping[localPath] || {};
         // add to JSON
         mapping[localPath][fileID] = {
@@ -70,14 +62,48 @@ let copyTests = function(path, tests, callback) {
     filePath +
     "/mapping.js";
   console.log("bash$ " + command);
-  execute.execute(command, err => {
-    if (err) return callback(err);
-    // success! mapping created, let's create the rest of the files :)
-    for (let i in commands) {
-      _createFileHelper(commands[i]);
+  // execute command
+  execute.execute(command, callback);
+};
+
+/**
+ * copies test files to path/src/tests
+ * @param {string} the base path of the new project
+ * @param {json} test objects (from generateTests)
+ * @param {function} callback when finished
+ **/
+let copyTests = function(path, tests, callback) {
+  let filePath = `${path}/src/tests`;
+  let commands = [];
+
+  // loop over tests creating new test file and adding it to the mapping
+  for (let endpoint in tests) {
+    for (let method in tests[endpoint]) {
+      for (let test in tests[endpoint][method]) {
+        // create test file
+        let fileID = `${method}-${endpoint}-${test}.js`.replace(/\//g, "");
+        let content = tests[endpoint][method][test].test;
+        // add a new singular file for each test
+        // push arguments to stack
+        commands.push({ filePath, fileID, content });
+      }
     }
-    callback();
-  });
+  }
+  // check that there are new tests to create
+  if (commands.length == 0) return callback();
+  // chain create file commands
+
+  let chain = (err, i, func, cmds) => {
+    // check if previous command succeeded
+    if (err) return callback(err);
+    // move onto next function, if there is one
+    i++;
+    if (!cmds[i]) return callback();
+    // call next function
+    cmds[i].callback = err => chain(err, i, func);
+    chain(func(cmds[i]));
+  };
+  chain(undefined, 0, _createFileHelper, commands);
 };
 
 // helper for creating js file with content as default export
