@@ -30,6 +30,11 @@ let createApp = function(path, tests, callback) {
   });
 };
 
+// helper for creating file IDs
+let _getFileID = function(method, endpoint, test) {
+  return `${method}-${endpoint}-${test}.js`.replace(/\//g, "");
+};
+
 /**
  * creates path/src/tests/mapping.js
  * @param {string} base path of the new new project
@@ -43,6 +48,8 @@ let createMappingFile = function(path, tests, callback) {
     for (let method in tests[endpoint]) {
       for (let test in tests[endpoint][method]) {
         // add test to mapping if not already there
+        let localPath = method + "/" + endpoint;
+        let fileID = _getFileID(method, endpoint, test);
         mapping[localPath] = mapping[localPath] || {};
         // add to JSON
         mapping[localPath][fileID] = {
@@ -81,7 +88,7 @@ let copyTests = function(path, tests, callback) {
     for (let method in tests[endpoint]) {
       for (let test in tests[endpoint][method]) {
         // create test file
-        let fileID = `${method}-${endpoint}-${test}.js`.replace(/\//g, "");
+        let fileID = _getFileID(method, endpoint, test);
         let content = tests[endpoint][method][test].test;
         // add a new singular file for each test
         // push arguments to stack
@@ -116,5 +123,6 @@ let _createFileHelper = ({ filePath, fileID, content }, callback) => {
 
 module.exports = {
   copyTests,
-  createApp
+  createApp,
+  createMappingFile
 };

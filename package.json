@@ -4,7 +4,7 @@
   "description": "CLI tool to generate HTTP / HTTPS tests against a swagger file",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch",
+    "test": "jest",
     "pre-commit": "lint-staged"
   },
   "pre-commit": [
