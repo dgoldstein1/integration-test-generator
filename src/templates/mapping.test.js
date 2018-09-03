@@ -2,7 +2,7 @@
 
 const template = require("./mapping");
 var exec = require("child_process").exec;
-var mockMappingString = require("./testFiles/expectedMappingString");
+var mockMappingString = require("./mocks/expectedMappingString");
 
 var mockTests = {
   "get/examples/services/hello": {
@@ -26,28 +26,24 @@ function execute(command, callback) {
 }
 
 describe("templates", () => {
-  describe.skip("mapping", () => {
-    it("creates correct string", () => {
+  describe("mapping", () => {
+    it.skip("creates correct string", () => {
       let mappingString = template(mockTests, "out");
       expect(mappingString).toEqual(mockMappingString);
     });
-    it.skip("generates valid javascript", done => {
+    it("can be written to file and parsed with prettier", done => {
       let callback = error => {
         // validate no error was thrown on running prettier
         expect(error).toBeNull();
         // import and evalu javascript
-        let method = require("./testFiles/postitiveTestExported");
-        eval(method);
         done();
       };
 
-      let test = template.positiveTest(sampleRequest, sampleResponse, "get");
-      // write test "temp" and run prettier
-      let testFile = "src/templates/testFiles/postitiveTestExported.js";
+      let mappingString = template(mockTests, "out");
+      let testFile = "src/templates/testFiles/mappingExported.js";
+      // write to file and run prettier
       execute(
-        `> ${testFile} && echo "module.exports = {test  : ${
-          test.test
-        }}" >> ${testFile} && prettier ${testFile}`,
+        `> ${testFile} && echo "${mappingString}" >> ${testFile} && prettier --write ${testFile}`,
         callback
       );
     });

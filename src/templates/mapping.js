@@ -8,27 +8,36 @@ var generatefileID = require("../generator/generateFileID");
  **/
 let mapping = (tests, path) => {
   // first let's isolate out the tests
+  let mapping = {};
   let filePath = `${path}/src/tests`;
-  let imports = "";
+  let imports = [];
+  // array of json for endpoint objects
+  let endpoints = [];
+  testObject = [];
   for (let endpoint in tests) {
-    for (let method in tests[endpoint]) {
-      for (let test in tests[endpoint][method]) {
-        // add test to mapping if not already there
-        let fileID = generatefileID(endpoint, test);
-        mapping[endpoint] = mapping[endpoint] || {};
-        // add to JSON
-        mapping[endpoint][fileID] = {
-          name: tests[endpoint][method][test].name,
-          ID: fileID,
-          test: fileID
-        };
-        imports += "import " + fileID + ' from "./' + fileID + '.js";';
-      }
+    for (let test in tests[endpoint]) {
+      // add test to mapping if not already there
+      let fileID = generatefileID(endpoint, test);
+      mapping[endpoint] = mapping[endpoint] || {};
+      // add to JSON
+      mapping[endpoint][fileID] = {
+        name: tests[endpoint][test].name,
+        ID: fileID,
+        test: fileID
+      };
+      imports.push(fileID);
     }
+    endpoints.push(mapping[endpoint]);
   }
 
+  // return stringified file
   return `
-    ${imports}
+    // mapping.js
+    ${imports.map(id => `import ${id} from './${id}';`).join("")}
+
+    export default ${endpoints.map(o => {
+      return `{'${o.endpoint}' : { ID : '${o.ID}' }}`;
+    })}
   `;
 };
 
