@@ -86,7 +86,7 @@ let generateTestObject = (
   tests.forEach(test => {
     testObject[test.name] = test;
   });
-  return { testObject };
+  return testObject;
 };
 
 module.exports = {

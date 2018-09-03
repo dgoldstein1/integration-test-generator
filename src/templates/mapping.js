@@ -9,7 +9,6 @@ var generatefileID = require("../generator/generateFileID");
 let mapping = (tests, path) => {
   // first let's isolate out the tests
   let filePath = `${path}/src/tests`;
-  let mapping = {};
   let imports = "";
   for (let endpoint in tests) {
     for (let method in tests[endpoint]) {
@@ -23,30 +22,14 @@ let mapping = (tests, path) => {
           ID: fileID,
           test: fileID
         };
-        imports += "import " + fileID + ' from "' + fileID + '.js";';
+        imports += "import " + fileID + ' from "./' + fileID + '.js";';
       }
     }
   }
 
-  return "TODO";
-
-  // // now return the templated string
-  // let test = `function() {
-  //   return api['${String(method)}']('endpoint + ${
-  //   sampleRequest.request.pathname
-  // }',${JSON.stringify(sampleRequest.request.body || {})}).then(res => {
-  //     return Promise.resolve({
-  //       success: _.isEqual(res.data, ${JSON.stringify(
-  //         sampleResponse.responses["200"]
-  //       )})
-  //     });
-  //   });
-  // }`;
-  // // remove white space from string
-  // return {
-  //   name: "PositiveTest",
-  //   test: test.replace(/\n|\r/g, ""),
-  // };
+  return `
+    ${imports}
+  `;
 };
 
 module.exports = mapping;
