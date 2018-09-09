@@ -69,22 +69,22 @@ let copyTests = function(path, tests, callback) {
   let filePath = `${path}/src/tests`;
   let commands = [];
   // loop over tests creating new test file and adding it to the mapping
-  for (let endpoint in tests) {
-    for (let method in tests[endpoint]) {
-      for (let test in tests[endpoint][method]) {
-        // create test file
-        let fileID = generatefileID(endpoint, test);
-        let content = tests[endpoint][method][test].test;
-        // add a new singular file for each test
-        // push arguments to stack
-        commands.push({ filePath, fileID, content });
-      }
+  for (let e in tests) {
+    for (let method in tests[e]) {
+      // create new test file by pushing arguments to stack
+      let testObject = tests[e][method];
+      commands.push({
+        filePath,
+        fileID: generatefileID(e, testObject.name),
+        content: testObject.test
+      });
     }
   }
   // check that there are new tests to create
   if (commands.length == 0) return callback();
   // chain create file commands
-  chain(undefined, -1, _createFileHelper, commands, callback);
+
+  console.log(JSON.stringify(tests, null, 2));
 };
 
 // helper for creating js file with content as default export
