@@ -12,6 +12,7 @@ if [[ ! -f $fullFileName ]]; then
     > $fullFileName
     echo "import api from '../api/api'" >> $fullFileName
     echo "import endpoint from '../definitions/endpoint'" >> $fullFileName
+    echo "import _ from 'lodash'" >> $fullFileName
     echo "" >> $fullFileName
     echo "export default $testFunction" >> $fullFileName
     prettier --write $fullFileName

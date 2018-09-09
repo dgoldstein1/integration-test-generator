@@ -40,7 +40,7 @@ let createApp = function(path, tests, swaggerPath, endpoint, callback) {
         execute(command, err => {
           if (err) return callback(err);
           // let's create the endpoint file
-          command = `> ${path}/src/definitions/endpoint.js && echo "export default '${endpoint}' >> ${path}/src/definitions/endpoint.js`;
+          command = `> ${path}/src/definitions/endpoint.js && echo "export default '${endpoint}'" >> ${path}/src/definitions/endpoint.js && cd ${path}/src && npm run testCI && prettier --write ./*`;
           console.log("bash$ " + command);
           execute(command, callback);
         });
