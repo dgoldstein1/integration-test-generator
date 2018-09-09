@@ -18,6 +18,7 @@ var mockTests = {
     }
   }
 };
+var mockTests2 = require("../generator/mocks/generatedSwaggerTests");
 
 function execute(command, callback) {
   exec(command, function(error, stdout, stderr) {
@@ -41,6 +42,22 @@ describe("templates", () => {
 
       let mappingString = template(mockTests, "out");
       let testFile = "src/templates/testFiles/mappingExported.js";
+      // write to file and run prettier
+      execute(
+        `> ${testFile} && echo "${mappingString}" >> ${testFile} && prettier --write ${testFile}`,
+        callback
+      );
+    });
+    it("generates more complicated tests", done => {
+      let callback = error => {
+        // validate no error was thrown on running prettier
+        expect(error).toBeNull();
+        // import and evalu javascript
+        done();
+      };
+
+      let mappingString = template(mockTests2, "out");
+      let testFile = "src/templates/testFiles/mappingExported2.js";
       // write to file and run prettier
       execute(
         `> ${testFile} && echo "${mappingString}" >> ${testFile} && prettier --write ${testFile}`,

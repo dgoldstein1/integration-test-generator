@@ -14,5 +14,10 @@ describe("generators", () => {
         generateFileID("/get/this/is/a/d a a fadfurl", "neg  af ative  tests")
       ).toEqual("getthisisadaafadfurlnegafativetests");
     });
+    it("removes all special characters", () => {
+      expect(generateFileID("SDF{}@F", "negativetests")).toEqual(
+        "SDFFnegativetests"
+      );
+    });
   });
 });
