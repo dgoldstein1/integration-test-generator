@@ -11,7 +11,7 @@ const positiveTestTemplate = require("../templates/postitiveTest");
  * generate tests which are then copied to the create react app path
  * @return {string} error, or undefined on success
  **/
-let generateAll = (swaggerObject, out, baseEndpoint, callback) => {
+let generateAll = (swaggerObject, baseEndpoint, callback) => {
   let Mockgen = Swagmock(swaggerObject);
   endpoint = baseEndpoint;
   // generate mock responses

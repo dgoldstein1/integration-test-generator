@@ -4,11 +4,22 @@ const generateTests = require("./generateTests");
 const swaggerRequestMock = require("./mocks/swaggerRequests");
 const swaggerResponseMock = require("./mocks/swaggerResponses");
 const generatedTests = require("./mocks/generatedSwaggerTests");
+const swaggerFile = require("./mocks/swaggerFile");
 
 describe("generateTests", () => {
   describe("generateAll", () => {
-    it("temp", () => {
-      expect(true);
+    it("generates valid tests", done => {
+      let callback = ({ err, tests }) => {
+        expect(err).toBeUndefined();
+        expect(tests).not.toBeUndefined();
+        done();
+      };
+
+      let tests = generateTests.generateAll(
+        swaggerFile,
+        "/this/is/an/endpoint",
+        callback
+      );
     });
   });
   describe("generateTests", () => {

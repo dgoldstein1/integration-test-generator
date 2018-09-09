@@ -1,12 +1,12 @@
-import api from "../api/api";
-import endpoint from "../definitions/endpoint";
+// mapping.js
+import getexamplesserviceshelloPositiveTest from "./getexamplesserviceshelloPositiveTest";
 
 export default {
   "get/examples/services/hello": {
-    testObjectgetexamplesserviceshelloPositiveTest: {
+    getexamplesserviceshelloPositiveTest: {
       name: "PositiveTest",
-      ID: "testObjectgetexamplesserviceshelloPositiveTest",
-      test: "~~~testObjectgetexamplesserviceshelloPositiveTest~~~"
+      ID: "getexamplesserviceshelloPositiveTest",
+      test: getexamplesserviceshelloPositiveTest
     }
   }
 };

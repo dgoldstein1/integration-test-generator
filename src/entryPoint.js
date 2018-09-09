@@ -31,16 +31,11 @@ swaggerParser.parseSwagger(args.swagger, ({ err, api }) => {
 
 // generate tests from template files
 let generateTestsFromSwagger = () => {
-  generateTests.generateAll(
-    swaggerAPI,
-    args.out,
-    args.endpoint,
-    ({ err, tests }) => {
-      logger.logAndExitOnError("Generated tests from Swagger API", err);
-      // success, tests were successfully generated!!
-      createUI(tests);
-    }
-  );
+  generateTests.generateAll(swaggerAPI, args.endpoint, ({ err, tests }) => {
+    logger.logAndExitOnError("Generated tests from Swagger API", err);
+    // success, tests were successfully generated!!
+    createUI(tests);
+  });
 };
 
 // create react app project locally

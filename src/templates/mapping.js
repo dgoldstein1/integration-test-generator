@@ -6,10 +6,9 @@ var generatefileID = require("../generator/generateFileID");
  * @param {json} map of test objects
  * @return {string} complete file ready to be exported to tests/mapping.js
  **/
-let mapping = (tests, path) => {
+let mapping = tests => {
   // first let's isolate out the tests
   let mapping = {};
-  let filePath = `${path}/src/tests`;
   let imports = [];
   // array of json for endpoint objects
   let endpoints = [];
@@ -29,10 +28,11 @@ let mapping = (tests, path) => {
     }
   }
 
-  // repalce quotes to make tests a variable
+  // replace quotes to make tests a variable
   mapping = JSON.stringify(mapping);
   mapping = mapping.replace(new RegExp('"~~~', "g"), "");
   mapping = mapping.replace(new RegExp('~~~"', "g"), "");
+  // "" => ''
   mapping = mapping.replace(new RegExp('"', "g"), "'");
 
   // return `{'${o.endpoint}' : { ID : '${o.ID}' }}`;

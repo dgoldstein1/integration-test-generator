@@ -14,7 +14,7 @@ let createApp = function(path, tests, swaggerPath, callback) {
   console.log("creating app, this may take a few minutes..");
   let command = " ./src/creator/createApp.sh " + path;
   console.log("bash$ " + command);
-  execute.execute(command, err => {
+  execute(command, err => {
     if (err) {
       err = "Command failed : " + err.cmd;
       return callback({ err });
@@ -37,7 +37,7 @@ let createApp = function(path, tests, swaggerPath, callback) {
           path +
           "/src/*";
         console.log("bash$ " + command);
-        execute.execute(command, callback);
+        execute(command, callback);
       });
     });
   });
@@ -50,38 +50,13 @@ let createApp = function(path, tests, swaggerPath, callback) {
  * @param {function callback} callback when finished
  **/
 let createMappingFile = function(path, tests, callback) {
-  // let filePath = `${path}/src/tests`;
-  // let mapping = {};
-  // let imports = ""
-  // for (let endpoint in tests) {
-  //   for (let method in tests[endpoint]) {
-  //     for (let test in tests[endpoint][method]) {
-  //       // add test to mapping if not already there
-  //       let fileID = _getFileID(method, endpoint, test);
-  //       mapping[endpoint] = mapping[endpoint] || {};
-  //       // add to JSON
-  //       mapping[endpoint][fileID] = {
-  //         name: tests[endpoint][method][test].name,
-  //         ID:  fileID,
-  //         test : fileID
-  //       };
-  //       imports += 'import ' + fileID + ' from "' + fileID + '.js";'
-  //     }
-  //   }
-  // }
-
-  // // add in stringified mapping
-  // // create command
-  // let command =
-  //   "./src/creator/createTestFile.sh " +
-  //   filePath +
-  //   " " +
-  //   "mapping" +
-  //   " '" +
-  //   mappingTemplate() +
-  //   "'";
-  // execute.execute(command, callback);
-  callback();
+  let mapping = mappingTemplate(tests);
+  let filePath = path + "/src/tests/mapping.js";
+  // write to file and run prettier
+  execute(
+    `> ${filePath} && echo "${mapping}" >> ${filePath} && prettier --write ${filePath}`,
+    callback
+  );
 };
 
 /**
@@ -122,7 +97,7 @@ let _createFileHelper = ({ filePath, fileID, content }, callback) => {
     ' "' +
     content +
     '"';
-  execute.execute(command, err => {
+  execute(command, err => {
     if (err) {
       console.error(err);
       callback(err);
