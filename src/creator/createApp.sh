@@ -26,8 +26,3 @@ log_success_or_failure "install dependencies"
 # set yourself as the owner of everything
 chown -R $USER:$USER ./*
 log_success_or_failure "changing owernship permissions"
-
-# run tests
-npm run testCI
-log_success_or_failure "run tests"
-

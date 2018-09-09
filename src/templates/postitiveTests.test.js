@@ -40,7 +40,7 @@ describe("templates", () => {
       expect(test.success).toBeUndefined();
       expect(test.name).toEqual("PositiveTest");
       expect(test.test).toEqual(
-        'function() {    return api[\'get\'](\'endpoint + /listSpaces\',{}).then(res => {      return Promise.resolve({        success: _.isEqual(res.data, {"count":"DYD","spaces":[{"ID":"YrTCZYEJ","name":"ALeXKpX","creator":"zcaIGtyGIwZ","created":"ugCwMNYmZ","numberOfMembers":"hDQgaXZVOk"}]})      });    });  }'
+        'function() {    return api[\'get\'](endpoint + \'/listSpaces\',{}).then(res => {      return Promise.resolve({        success: _.isEqual(res.data, {"count":"DYD","spaces":[{"ID":"YrTCZYEJ","name":"ALeXKpX","creator":"zcaIGtyGIwZ","created":"ugCwMNYmZ","numberOfMembers":"hDQgaXZVOk"}]})      });    });  }'
       );
     });
     it("generates valid javascript", done => {

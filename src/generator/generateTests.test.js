@@ -15,11 +15,7 @@ describe("generateTests", () => {
         done();
       };
 
-      let tests = generateTests.generateAll(
-        swaggerFile,
-        "/this/is/an/endpoint",
-        callback
-      );
+      let tests = generateTests.generateAll(swaggerFile, callback);
     });
   });
   describe("generateTests", () => {

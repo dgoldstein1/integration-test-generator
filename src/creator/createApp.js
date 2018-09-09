@@ -10,7 +10,7 @@ var generatefileID = require("../generator/generateFileID");
  * @param {string} path of where to create the app
  * @return {{err : string}} in callback
  **/
-let createApp = function(path, tests, swaggerPath, callback) {
+let createApp = function(path, tests, swaggerPath, endpoint, callback) {
   console.log("creating app, this may take a few minutes..");
   let command = " ./src/creator/createApp.sh " + path;
   console.log("bash$ " + command);
@@ -37,7 +37,13 @@ let createApp = function(path, tests, swaggerPath, callback) {
           path +
           "/src/*";
         console.log("bash$ " + command);
-        execute(command, callback);
+        execute(command, err => {
+          if (err) return callback(err);
+          // let's create the endpoint file
+          command = `> ${path}/src/definitions/endpoint.js && echo "export default '${endpoint}' >> ${path}/src/definitions/endpoint.js`;
+          console.log("bash$ " + command);
+          execute(command, callback);
+        });
       });
     });
   });
@@ -83,8 +89,7 @@ let copyTests = function(path, tests, callback) {
   // check that there are new tests to create
   if (commands.length == 0) return callback();
   // chain create file commands
-
-  console.log(JSON.stringify(tests, null, 2));
+  chain(undefined, -1, _createFileHelper, commands, callback);
 };
 
 // helper for creating js file with content as default export

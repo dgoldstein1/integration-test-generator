@@ -40,7 +40,8 @@ let generateTestsFromSwagger = () => {
 
 // create react app project locally
 let createUI = tests => {
-  createApp.createApp(args.out, tests, args.swagger, err => {
+  // createApp.createApp(args.out, tests, args.swagger, args.endpoint, err => {
+  createApp.copyTests(args.out, tests, err => {
     logger.logAndExitOnError("Created app with tests", err);
   });
 };

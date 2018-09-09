@@ -5,12 +5,11 @@
  * @param {json} sample request
  * @param {json} sample response
  * @param {string} method type
- * @param {string} base endpoint
  * @return {json} test { name : "string", test : function(), success : undefined }
  **/
-let positiveTest = (sampleRequest, sampleResponse, method, endpoint = "") => {
+let positiveTest = (sampleRequest, sampleResponse, method) => {
   let test = `function() {
-    return api['${String(method)}']('endpoint + ${
+    return api['${String(method)}'](endpoint + '${
     sampleRequest.request.pathname
   }',${JSON.stringify(sampleRequest.request.body || {})}).then(res => {
       return Promise.resolve({

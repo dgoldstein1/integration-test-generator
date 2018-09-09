@@ -11,9 +11,8 @@ const positiveTestTemplate = require("../templates/postitiveTest");
  * generate tests which are then copied to the create react app path
  * @return {string} error, or undefined on success
  **/
-let generateAll = (swaggerObject, baseEndpoint, callback) => {
+let generateAll = (swaggerObject, callback) => {
   let Mockgen = Swagmock(swaggerObject);
-  endpoint = baseEndpoint;
   // generate mock responses
   Mockgen.responses({}, (err, responseMocks) => {
     if (err) return callback({ err });
@@ -21,7 +20,7 @@ let generateAll = (swaggerObject, baseEndpoint, callback) => {
     Mockgen.requests({}, (err, requestMocks) => {
       if (err) callback({ err });
       // we have all mock requests / responses. Let's generate the tests
-      let tests = generateTests(requestMocks, responseMocks, baseEndpoint);
+      let tests = generateTests(requestMocks, responseMocks);
       if (tests.error) return callback({ err: tests.error });
       // success!
       callback({ tests: tests });
@@ -34,7 +33,7 @@ let generateAll = (swaggerObject, baseEndpoint, callback) => {
  * @param {json} example responses
  * @return {json} {error : "string", tests : json object}
  **/
-let generateTests = (requests, responses, baseEndpoint = "") => {
+let generateTests = (requests, responses) => {
   let tests = {};
   // loop through outer endpoins
   for (let endpoint in requests) {
@@ -44,8 +43,7 @@ let generateTests = (requests, responses, baseEndpoint = "") => {
       let testObject = generateTestObject(
         requests[endpoint][method],
         responses[endpoint][method],
-        method,
-        baseEndpoint
+        method
       );
       // check for error
       if (testObject.error) return { error: testObject.error };
@@ -64,22 +62,12 @@ let generateTests = (requests, responses, baseEndpoint = "") => {
  * @param {string} base endpoint
  * @return {json} {error : "string", testObject : {json}}
  **/
-let generateTestObject = (
-  sampleRequest,
-  sampleResponse,
-  method,
-  baseEndpoint = ""
-) => {
+let generateTestObject = (sampleRequest, sampleResponse, method) => {
   if (method === "delete") method = "del";
   if (!api[method]) return { error: "Method " + method + " is not supported" };
   // generate the tests
   let tests = [
-    positiveTestTemplate.positiveTest(
-      sampleRequest,
-      sampleResponse,
-      method,
-      baseEndpoint
-    )
+    positiveTestTemplate.positiveTest(sampleRequest, sampleResponse, method)
   ];
   // create test object
   let testObject = {};
