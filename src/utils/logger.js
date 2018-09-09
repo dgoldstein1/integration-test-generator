@@ -19,6 +19,7 @@ let log = (msg, level = "INFO") => {
   // check if is valid loggic level
   if (!LoggingLevels[level])
     console.error("Bad logging level " + level + " passed to log()");
+  if (typeof msg === "object") msg = JSON.stringify(msg, null, 2);
   // else log normally
   console.log(LoggingLevels[level](level + " : " + msg));
 };
