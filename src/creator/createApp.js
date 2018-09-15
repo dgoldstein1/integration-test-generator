@@ -12,7 +12,7 @@ var generatefileID = require("../generator/generateFileID");
  **/
 let createApp = function(path, tests, swaggerPath, endpoint, callback) {
   console.log("creating app, this may take a few minutes..");
-  let command = " ./src/creator/createApp.sh " + path;
+  let command = "createIntegrationTestApp " + path;
   console.log("bash$ " + command);
   execute(command, err => {
     if (err) {
@@ -95,7 +95,7 @@ let copyTests = function(path, tests, callback) {
 // helper for creating js file with content as default export
 let _createFileHelper = ({ filePath, fileID, content }, callback) => {
   let command =
-    "./src/creator/createTestFile.sh " +
+    "createIntegrationTestFile " +
     filePath +
     " " +
     fileID +
