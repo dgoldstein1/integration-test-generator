@@ -3,7 +3,7 @@
 const logger = require("./logger");
 
 describe("logger", () => {
-  describe("log", () => {
+  describe.skip("log", () => {
     beforeEach(() => {
       console.log = jest.fn();
     });
