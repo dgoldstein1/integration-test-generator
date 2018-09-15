@@ -3,14 +3,14 @@ module.exports = {
     return api["get"](endpoint + "/listSpaces", {}).then(res => {
       return Promise.resolve({
         success: _.isEqual(res.data, {
-          count: DYD,
+          count: "DYD",
           spaces: [
             {
-              ID: YrTCZYEJ,
-              name: ALeXKpX,
-              creator: zcaIGtyGIwZ,
-              created: ugCwMNYmZ,
-              numberOfMembers: hDQgaXZVOk
+              ID: "YrTCZYEJ",
+              name: "ALeXKpX",
+              creator: "zcaIGtyGIwZ",
+              created: "ugCwMNYmZ",
+              numberOfMembers: "hDQgaXZVOk"
             }
           ]
         })
