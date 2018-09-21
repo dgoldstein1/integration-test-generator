@@ -1,20 +1,10 @@
 # Integration Test Generator
 
-DESCRIPTION
+Integration test generator is a fast and convient way to create integration test against a swagger api. This project clones its sister project ui project [integration test generator ui](https://github.com/dgoldstein1/swagger-integration-test-UI) and then generates all the business logic wires up the app, in order to create automated tests
 
-Planned features:
+## Planned features:
 
-PLANNED FEATURES
-
-## Usage
-
-```sh
-npm install -g generateIntegrationTests 
-generateIntegrationTests    --swagger=swagger.json --out=integrationtests --endpoint=https://localhost:4000 --npmPackgeName=exemplarPlugin
-```
-
-## Development
-
+ - add ci pipeline
 
 ### Prerequisites
 
@@ -22,9 +12,83 @@ You will need
 
 - [Node JS](https://nodejs.org/en/)
 
-### Installing
+## Installation and Usage
 
-TODO
+```sh
+# clone the package
+git clone https://github.com/dgoldstein1/integration-test-generator.git
+# generate symbolic links
+cd integration-test-generator
+./create_symbolic_links.sh
+# run the generator
+cd some-backend-project-with-a-swagger-file
+generateIntegrationTests    --swagger=swagger.json --out=integrationtests --endpoint=https://localhost:4000 --npmPackgeName=exemplarPlugin
+```
+
+This should create the app with tests in the directory you specified as `out`.
+
+```sh
+cd out # or directory you specified
+# open up app
+npm start 
+``` 
+
+You should be taken to a new screen with the project:
+
+![app](images/exampleApp.png)
+
+At this point you will need to update the templated tests in the `out/src/tests/` folder. For example, 
+
+```js
+
+return api["get"](endpoint + "/listSpaces", {}).then(res => {
+  return Promise.resolve({
+    success: _.isEqual(res.data, {
+      count: "DYD",
+      spaces: [
+        {
+          ID: "YrTCZYEJ",
+          name: "ALeXKpX",
+          creator: "zcaIGtyGIwZ",
+          created: "ugCwMNYmZ",
+          numberOfMembers: "hDQgaXZVOk"
+        }
+      ]
+    })
+  });
+});
+```
+
+Will need to be adjusted to something like
+
+```js
+
+return api["get"](endpoint + "/listSpaces", {}).then(res => {
+  return Promise.resolve({
+    success: _.isEqual(res.data, {
+      count: 0,
+      spaces: [
+        {
+          ID: "20394207502360235",
+          name: "This is a real name",
+          creator: "David Goldstein",
+          numberOfMembers: 15
+        }
+      ]
+    })
+  });
+});
+
+ ```
+
+Continue this until your tests are passing! If your swagger.json file changes, you can update it using:
+
+```sh
+integration-test-generator -swagger swaggerfile -generateOnly true
+```
+
+Note that no existing test will be changed / updated / deleted.
+
 
 ## Authors
 
