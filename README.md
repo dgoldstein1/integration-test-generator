@@ -89,6 +89,26 @@ integration-test-generator -swagger swaggerfile -generateOnly true
 
 Note that no existing test will be changed / updated / deleted.
 
+## Docker 
+
+As a simple React app, it is easy to make the generated integration tests into a docker image.
+
+```sh
+cd out # place where app was generated
+docker built -f integration-tests . # create docker image 
+```
+Then mount the `out` directory into the container. For example, in docker-compose file this would look like:
+
+```yml
+integration-tests:
+  image: integration-tests
+  volumes:
+    - './out:/usr/src/app'
+  ports:
+    - '3000:3000'
+  environment:
+    - NODE_ENV=development
+```
 
 ## Authors
 
