@@ -27,8 +27,12 @@ let createParser = function(parser) {
     help: "endpoint where your service is running (root to make requests to)"
   });
   parser.addArgument("-npmPackageName", {
-    required: true,
+    required: false,
     help: "name of package to be published to npm"
+  });
+  parser.addArgument("-generateOnly", {
+    required: false,
+    help: "only generate new test files without creating new app"
   });
 
   return parser;

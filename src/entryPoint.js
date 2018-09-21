@@ -40,12 +40,22 @@ let generateTestsFromSwagger = () => {
 
 // create react app project locally
 let createUI = tests => {
-  createApp.createApp(args.out, tests, args.swagger, args.endpoint, err => {
-    // createApp.copyTests(args.out, tests, err => {
-    logger.logAndExitOnError("Created app with tests", err);
-  });
+  if (!args.generateOnly) {
+    // create entire app
+    createApp.createApp(
+      args.out,
+      tests,
+      args.swagger,
+      args.endpoint,
+      args.generateOnly,
+      err => {
+        logger.logAndExitOnError("Created app with tests", err);
+      }
+    );
+  } else {
+    // create only tests
+    createApp.copyTests(args.out, tests, err => {
+      logger.logAndExitOnError("Created app with tests", err);
+    });
+  }
 };
-
-// generate main app.js file
-
-// create package.json and dockerfile
