@@ -14,14 +14,20 @@ Object.freeze(LoggingLevels);
  * general
  * @param {string} thing to log
  * @param {string} level (one of LoggingLevels keys)
+ * @return {string} output to stdout
  **/
-let log = (msg, level = "INFO") => {
+let log = (msg, level = "INFO", stdOutOnly = false) => {
   // check if is valid loggic level
-  if (!LoggingLevels[level])
-    console.error("Bad logging level " + level + " passed to log()");
+  if (!LoggingLevels[level]) {
+    let err = "Bad logging level " + level + " passed to log()";
+    console.error(err);
+    return err;
+  }
   if (typeof msg === "object") msg = JSON.stringify(msg, null, 2);
   // else log normally
-  console.log(LoggingLevels[level](level + " : " + msg));
+  let out = level + " : " + msg;
+  console.log(LoggingLevels[level](out));
+  return out;
 };
 
 /**

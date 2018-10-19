@@ -15,6 +15,6 @@ if [[ ! -f $fullFileName ]]; then
     echo "import _ from 'lodash'" >> $fullFileName
     echo "" >> $fullFileName
     echo "export default $testFunction" >> $fullFileName
-    prettier --write $fullFileName
+    npm run pretty $fullFileName
 fi
 

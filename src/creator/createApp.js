@@ -10,7 +10,14 @@ var generatefileID = require("../generator/generateFileID");
  * @param {string} path of where to create the app
  * @return {{err : string}} in callback
  **/
-let createApp = function(path, tests, swaggerPath, endpoint, callback) {
+let createApp = function(
+  path,
+  tests,
+  swaggerPath,
+  endpoint,
+  generateonly,
+  callback
+) {
   console.log("creating app, this may take a few minutes..");
   let command = "createIntegrationTestApp " + path;
   console.log("bash$ " + command);
@@ -36,14 +43,14 @@ let createApp = function(path, tests, swaggerPath, endpoint, callback) {
           swaggerPath +
           " " +
           path +
-          "/src/definitions/swagger.json && prettier --write " +
+          "/src/definitions/swagger.json && npm run pretty " +
           path +
           "/src/*";
         console.log("bash$ " + command);
         execute(command, err => {
           if (err) return callback(err);
           // let's create the endpoint file
-          command = `> ${path}/src/definitions/endpoint.js && echo "export default '${endpoint}'" >> ${path}/src/definitions/endpoint.js && cd ${path}/src && npm run testCI && prettier --write ./*`;
+          command = `> ${path}/src/definitions/endpoint.js && echo "export default '${endpoint}'" >> ${path}/src/definitions/endpoint.js && find ${path}/src -name "*test.js" -type f -delete && npm run pretty ${path}/src/*`;
           console.log("bash$ " + command);
           execute(command, callback);
         });
@@ -58,12 +65,16 @@ let createApp = function(path, tests, swaggerPath, endpoint, callback) {
  * @param {json} test objects from generate tests
  * @param {function callback} callback when finished
  **/
-let createMappingFile = function(path, tests, callback) {
+let createMappingFile = function(
+  path,
+  tests,
+  callback = () => console.error("callback is undefined!!")
+) {
   let mapping = mappingTemplate(tests);
   let filePath = path + "/src/tests/mapping.js";
   // write to file and run prettier
   execute(
-    `> ${filePath} && echo "${mapping}" >> ${filePath} && prettier --write ${filePath}`,
+    `> ${filePath} && echo "${mapping}" >> ${filePath} && npm run pretty ${filePath}`,
     callback
   );
 };

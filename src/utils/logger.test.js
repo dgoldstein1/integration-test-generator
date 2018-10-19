@@ -3,24 +3,22 @@
 const logger = require("./logger");
 
 describe("logger", () => {
-  describe.skip("log", () => {
-    beforeEach(() => {
-      console.log = jest.fn();
-    });
+  describe("log", () => {
     it("logs out info", () => {
-      logger.log("test", "INFO");
-      expect(console.log.mock.calls[0]).toEqual(["INFO : test"]);
+      let t = logger.log("test", "INFO");
+      let expectedResult = "INFO : test";
+      expect(t).toEqual(expectedResult);
     });
     it("logs out error", () => {
-      logger.log("test", "ERROR");
-      expect(console.log.mock.calls[0]).toEqual(["ERROR : test"]);
+      let t = logger.log("test", "ERROR");
+      let expectedResult = "ERROR : test";
+      expect(t).toEqual(expectedResult);
     });
     it("logs stringified object if json is passed", () => {
       let object = { test: "test" };
-      logger.log(object, "ERROR");
-      expect(console.log.mock.calls[0]).toEqual([
-        `ERROR : ${JSON.stringify(object, null, 2)}`
-      ]);
+      let t = logger.log(object, "ERROR");
+      let expectedResult = "ERROR : " + JSON.stringify(object, null, 2);
+      expect(t).toEqual(expectedResult);
     });
   });
   describe("logAndExitOnError", () => {

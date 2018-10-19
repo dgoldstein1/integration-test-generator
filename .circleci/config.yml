@@ -25,6 +25,7 @@ jobs:
       - run: mkdir ./bin
       - run: cp $ROOT_DIR/src/creator/createApp.sh ./bin/createIntegrationTestApp
       - run: cp $ROOT_DIR/src/creator/createTestFile.sh ./bin/createIntegrationTestFile
+      
       - run: echo 'export PATH=$ROOT_DIR/bin:$PATH' >> $BASH_ENV
       # Download and cache dependencies
       - restore_cache:
@@ -51,8 +52,8 @@ jobs:
       - run: npm run test -- --coverage --coveragePathIgnorePatterns="src/templates/testFiles/*" --bail --ci
       # send coverage report to code-climate
       - run: ./cc-test-reporter after-build -t lcov
-      # run integration tests!
-      # - run: npm run test:e2e
+      # run full integration test!
+      - run: node ./src/entryPoint.js -swagger src/parser/mocks/goodSwagger.json  -out mock-integration-tests -endpoint https://localhost:8080 -npmPackageName test
 
 # Define a workflow to specify the run order and filtering of jobs
 # More info at https://circleci.com/docs/2.0/workflows/
