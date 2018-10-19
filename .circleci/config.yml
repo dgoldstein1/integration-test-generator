@@ -48,7 +48,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: ./cc-test-reporter before-build
       # run tests!
-      - run: npm run test -- --coverage --bail --ci
+      - run: npm run test -- --coverage --coveragePathIgnorePatterns="src/templates/testFiles/*" --bail --ci
       # send coverage report to code-climate
       - run: ./cc-test-reporter after-build -t lcov
       # run integration tests!
