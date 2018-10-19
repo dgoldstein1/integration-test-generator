@@ -11,8 +11,10 @@ describe("parseSwagger", () => {
         done();
       }
 
+      console.log(process.env.ROOT_DIR);
+
       parseSwagger.parseSwagger(
-        "/home/davidgoldstein/dev/work/integration-test-generator/src/parser/mocks/goodSwagger.json",
+        process.env.ROOT_DIR + "/src/parser/mocks/goodSwagger.json",
         callback
       );
     });
@@ -25,7 +27,7 @@ describe("parseSwagger", () => {
       }
 
       parseSwagger.parseSwagger(
-        "/home/davidgoldstein/dev/work/integration-test-generator/src/parser/mocks/badSwagger.json",
+        process.env.ROOT_DIR + "/src/parser/mocks/badSwagger.json",
         callback
       );
     });

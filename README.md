@@ -89,6 +89,16 @@ integration-test-generator -swagger swaggerfile -generateOnly true
 
 Note that no existing test will be changed / updated / deleted.
 
+## Unit Tests
+
+Unit tests have pretty good coverage and are run on every commit to a remote branch. To run unit tests locally:
+
+```sh
+# from root directory of project
+export ROOT_DIR=$(pwd)
+npm test
+```
+
 ## Docker 
 
 As a simple React app, it is easy to make the generated integration tests into a docker image.

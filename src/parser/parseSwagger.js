@@ -4,7 +4,7 @@ var fs = require("fs");
 var SwaggerParser = require("swagger-parser");
 
 /**
- * @param {string} file URL (e.g. "/home/davidgoldstein/dev/work/integration-test-generator/src/parser/mocks/goodSwagger.json")
+ * @param {string} file URL (e.g. process.env.ROOT_DIR + "/src/parser/mocks/goodSwagger.json")
  * @return {JSON} formatted {err : "string error", api : successfully parsed swagger api }
  **/
 let parseSwagger = (filePath, callback) => {

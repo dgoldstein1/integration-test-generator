@@ -29,6 +29,9 @@ let createApp = function(path, tests, swaggerPath, endpoint, callback) {
         if (err) return callback(err);
         // success! all tests have been added. Let's not prettify everthing :)
         let command =
+          "mkdir -p " +
+          path +
+          "/src/definitions && " +
           "cp " +
           swaggerPath +
           " " +

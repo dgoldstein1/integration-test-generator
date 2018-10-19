@@ -4,7 +4,7 @@ let createApp = require("./createApp");
 let mockTestsObject = require("./mocks/tests");
 var execute = require("../utils/execute");
 
-let path = "src/creator/testFiles";
+let path = process.env.ROOT_DIR + "src/creator/testFiles";
 
 describe("createApp", () => {
   describe("copyTests", () => {
@@ -21,7 +21,7 @@ describe("createApp", () => {
       let callback = err => {
         expect(err).toBeUndefined();
         execute(
-          "diff src/creator/mocks/expectedTest.js src/creator/testFiles/src/tests/getexamplesserviceshelloPositiveTest.js",
+          "diff  $ROOT_DIR/src/creator/mocks/expectedTest.js $ROOT_DIR/src/creator/testFiles/src/tests/getexamplesserviceshelloPositiveTest.js",
           err => {
             expect(err).toBeNull();
             done();
