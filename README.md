@@ -5,8 +5,6 @@ Integration test generator is a fast and convient way to create integration test
 
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ce123b477e3b9b57cab8/test_coverage)](https://codeclimate.com/github/dgoldstein1/integration-test-generator/test_coverage)
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/ce123b477e3b9b57cab8/maintainability)](https://codeclimate.com/github/dgoldstein1/integration-test-generator/maintainability)
-
 ## Planned features:
 
  - add ci pipeline
