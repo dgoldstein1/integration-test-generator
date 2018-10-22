@@ -14,6 +14,7 @@ Integration test generator is a fast and convient way to create integration test
 You will need 
 
 - [Node JS](https://nodejs.org/en/)
+- [Prettier](https://prettier.io/)
 
 ## Installation and Usage
 
@@ -23,9 +24,13 @@ git clone https://github.com/dgoldstein1/integration-test-generator.git
 # generate symbolic links
 cd integration-test-generator
 ./create_symbolic_links.sh
+# install packages
+npm install
+# run tests
+npm test
 # run the generator
 cd some-backend-project-with-a-swagger-file
-generateIntegrationTests    --swagger=swagger.json --out=integrationtests --endpoint=https://localhost:4000 --npmPackgeName=exemplarPlugin
+integration-test-generator -swagger src/parser/mocks/goodSwagger.json  -out mock-integration-tests -endpoint https://localhost:8080 -npmPackageName test
 ```
 
 This should create the app with tests in the directory you specified as `out`.

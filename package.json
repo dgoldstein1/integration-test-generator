@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "pre-commit": "lint-staged"
+    "pre-commit": "lint-staged",
+    "pretty" : "prettier --write $1"
   },
   "pre-commit": [
     "pre-commit"
@@ -30,7 +31,9 @@
     "url": "https://github.com/dgoldstein1/integration-test-generator/issues"
   },
   "bin": {
-    "integration-test-generator": "./src/entryPoint.js"
+    "integration-test-generator": "./src/entryPoint.js",
+    "createIntegrationTestApp" : "./src/creator/createApp.sh",
+    "createIntegrationTestFile" : "./src/creator/createTestFile.sh"
   },
   "homepage": "https://github.com/dgoldstein1/integration-test-generator#readme",
   "dependencies": {
@@ -43,9 +46,7 @@
     "prettier": "^1.14.2",
     "swagger-parser": "^5.0.4",
     "swagmock": "^1.0.0",
-    "whatwg-fetch": "^2.0.4"
-  },
-  "devDependencies": {
+    "whatwg-fetch": "^2.0.4",
     "jest": "^23.5.0",
     "lint-staged": "^7.2.2",
     "pre-commit": "^1.2.2",

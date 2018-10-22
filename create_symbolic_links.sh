@@ -6,7 +6,7 @@
 # system wide
 
 # createIntegrationTestApp
-ln -s -f ./src/creator/createApp.sh /usr/local/bin/createIntegrationTestApp
+ln -f ./src/creator/createApp.sh /usr/local/bin/createIntegrationTestApp
 
 # createIntegrationTestFile
-ln -s -f ./src/creator/createTestFile.sh /usr/local/bin/createIntegrationTestFile
+ln -f ./src/creator/createTestFile.sh /usr/local/bin/createIntegrationTestFile

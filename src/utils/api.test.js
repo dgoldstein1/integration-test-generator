@@ -33,6 +33,23 @@ describe("api", () => {
       });
     });
   });
+  describe("patch", () => {
+    it("on success", () => {
+      let mockResponse = {};
+      mock.onPatch(mockUrl).reply(200, mockResponse);
+      return api.patch(mockUrl).then(res => {
+        expect(res.success).toEqual(true);
+        expect(res.data).toEqual(mockResponse);
+      });
+    });
+    it("on failure", () => {
+      mock.onPatch(mockUrl).reply(400, {});
+      return api.patch(mockUrl).then(res => {
+        expect(res.success).toEqual(false);
+        expect(res.error).not.toEqual(undefined);
+      });
+    });
+  });
   describe("post", () => {
     it("on success", () => {
       let mockResponse = {};
@@ -51,7 +68,7 @@ describe("api", () => {
     });
   });
   // for some reason axios.axos(method : delete) causes tests to fail
-  describe.skip("delete", () => {
+  describe("delete", () => {
     it("on success", () => {
       let mockResponse = {};
       mock.onDelete(mockUrl).reply(200, mockResponse);

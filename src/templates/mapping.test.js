@@ -2,7 +2,6 @@
 
 const template = require("./mapping");
 var exec = require("child_process").exec;
-var mockMappingString = require("./mocks/expectedMappingString");
 
 var mockTests = {
   "get/examples/services/hello": {
@@ -28,9 +27,14 @@ function execute(command, callback) {
 
 describe("templates", () => {
   describe("mapping", () => {
-    it.skip("creates correct string", () => {
+    it("creates correct string", () => {
       let mappingString = template(mockTests, "out");
-      expect(mappingString).toEqual(mockMappingString);
+
+      let stringExports = `export default {'get/examples/services/hello':{'getexamplesserviceshelloPositiveTest':{'name':'PositiveTest','ID':'getexamplesserviceshelloPositiveTest','test':getexamplesserviceshelloPositiveTest},'getexamplesserviceshelloNegativeTest':{'name':'NegativeTest','ID':'getexamplesserviceshelloNegativeTest','test':getexamplesserviceshelloNegativeTest}}};`;
+      let stringTests = `import getexamplesserviceshelloPositiveTest from './getexamplesserviceshelloPositiveTest';import getexamplesserviceshelloNegativeTest from './getexamplesserviceshelloNegativeTest';`;
+
+      expect(mappingString.includes(stringExports)).toEqual(true);
+      expect(mappingString.includes(stringTests)).toEqual(true);
     });
     it("can be written to file and parsed with prettier", done => {
       let callback = error => {
@@ -44,7 +48,7 @@ describe("templates", () => {
       let testFile = "src/templates/testFiles/mappingExported.js";
       // write to file and run prettier
       execute(
-        `> ${testFile} && echo "${mappingString}" >> ${testFile} && prettier --write ${testFile}`,
+        `> ${testFile} && echo "${mappingString}" >> ${testFile} && npm run pretty ${testFile}`,
         callback
       );
     });
@@ -60,7 +64,7 @@ describe("templates", () => {
       let testFile = "src/templates/testFiles/mappingExported2.js";
       // write to file and run prettier
       execute(
-        `> ${testFile} && echo "${mappingString}" >> ${testFile} && prettier --write ${testFile}`,
+        `> ${testFile} && echo "${mappingString}" >> ${testFile} && npm run pretty ${testFile}`,
         callback
       );
     });
