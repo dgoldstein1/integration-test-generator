@@ -28,9 +28,9 @@ let createHeader = (sampleRequest, sampleResponse, method) => {
     import _ from 'lodash';
 
     let params = {};
-    let path = ${pathname} + api.paramsToUri(params);
+    let path = '${pathname}' + api.paramsToUri(params);
     let requestBody = ${sampleRequest};
-    let method = ${method.toUpperCase()};
+    let method = '${method.toUpperCase()}';
     let expectedOutput = ${sampleResponse};
   `;
   return header.replace(/\n|\r|\t/g, "");

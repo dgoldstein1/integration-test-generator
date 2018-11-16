@@ -46,13 +46,13 @@ describe("templates", () => {
       ).toContain("let params = {};");
       expect(
         headersAndFooters.createHeader(sampleRequest, sampleResponse, method)
-      ).toContain("let path = /listSpaces + api.paramsToUri(params);");
+      ).toContain("let path = '/listSpaces' + api.paramsToUri(params);");
       expect(
         headersAndFooters.createHeader(sampleRequest, sampleResponse, method)
       ).toContain("let requestBody = {};");
       expect(
         headersAndFooters.createHeader(sampleRequest, sampleResponse, method)
-      ).toContain("let method = POST;");
+      ).toContain("let method = 'POST';");
       expect(
         headersAndFooters.createHeader(sampleRequest, sampleResponse, method)
       ).toContain(

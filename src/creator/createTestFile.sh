@@ -12,9 +12,6 @@ if [[ ! -f $fullFileName ]]; then
 	echo $fullFileName
 	mkdir -p "$filePath"
     > $fullFileName
-    echo "import api from '../api/api'" >> $fullFileName
-    echo "import endpoint from '../definitions/endpoint'" >> $fullFileName
-    echo "import _ from 'lodash'" >> $fullFileName
     echo "" >> $fullFileName
     echo $header >> $fullFileName
     echo "let $fileName = $testFunction" >> $fullFileName
