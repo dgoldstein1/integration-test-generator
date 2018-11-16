@@ -40,7 +40,7 @@ describe("templates", () => {
       expect(test.success).toBeUndefined();
       expect(test.name).toEqual("PositiveTest");
       expect(test.test).toEqual(
-        "function() {    return api['get'](endpoint + '/listSpaces',{}).then(res => {      return Promise.resolve({        success: _.isEqual(res.data, {'count':'DYD','spaces':[{'ID':'YrTCZYEJ','name':'ALeXKpX','creator':'zcaIGtyGIwZ','created':'ugCwMNYmZ','numberOfMembers':'hDQgaXZVOk'}]})      });    });  }"
+        "function() {return api[method.toLowerCase()](endpoint + path, requestBody)}"
       );
     });
     it("generates valid javascript", done => {
@@ -59,7 +59,7 @@ describe("templates", () => {
       execute(
         `> ${testFile} && echo "module.exports = {test  : ${
           test.test
-        }}" >> ${testFile} && prettier ${testFile}`,
+        }}" >> ${testFile} && prettier --write ${testFile}`,
         callback
       );
     });

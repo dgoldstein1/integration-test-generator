@@ -23,7 +23,7 @@ You will need
 git clone https://github.com/dgoldstein1/integration-test-generator.git
 # generate symbolic links
 cd integration-test-generator
-./create_symbolic_links.sh
+sudo ./create_symbolic_links.sh
 # install packages
 npm install
 # run tests
@@ -49,45 +49,68 @@ At this point you will need to update the templated tests in the `out/src/tests/
 
 ```js
 
-return api["get"](endpoint + "/listSpaces", {}).then(res => {
-  return Promise.resolve({
-    success: _.isEqual(res.data, {
-      count: "DYD",
-      spaces: [
-        {
-          ID: "YrTCZYEJ",
-          name: "ALeXKpX",
-          creator: "zcaIGtyGIwZ",
-          created: "ugCwMNYmZ",
-          numberOfMembers: "hDQgaXZVOk"
-        }
-      ]
-    })
-  });
-});
+import api from "../api/api";
+import endpoint from "../definitions/endpoint";
+import _ from "lodash";
+
+// replace code here
+let params = {};
+let path = "/examples/services/hello" + api.paramsToUri(params);
+let requestBody = {};
+let method = "GET";
+let expectedOutput = { text: "FdeiovgtZT" };
+
+// test function
+let getexamplesserviceshelloPositiveTest = function() {
+  return api[method.toLowerCase()](endpoint + path, requestBody);
+};
+export {
+  getexamplesserviceshelloPositiveTest,
+  method,
+  requestBody,
+  expectedOutput,
+  path
+};
+
 ```
 
-Will need to be adjusted to something like
+will need to be adjusted to something like this:
 
 ```js
 
-return api["get"](endpoint + "/listSpaces", {}).then(res => {
-  return Promise.resolve({
-    success: _.isEqual(res.data, {
-      count: 0,
-      spaces: [
-        {
-          ID: "20394207502360235",
-          name: "This is a real name",
-          creator: "David Goldstein",
-          numberOfMembers: 15
-        }
-      ]
-    })
+import api from "../api/api";
+import endpoint from "../definitions/endpoint";
+import _ from "lodash";
+
+// replace code here
+let params = {
+  "q"  : "query"
+};
+let path = "/examples/services/hello" + api.paramsToUri(params);
+let requestBody = {
+  "test" : "test Text"
+};
+let method = "GET";
+let expectedOutput = { text: "This is real text" };
+
+// test function
+let getexamplesserviceshelloPositiveTest = function() {
+  return api[method.toLowerCase()](endpoint + path, requestBody).then(res =>{
+    success : _isEqual(res.data, expectedOutput)  
   });
-});
+};
+
+export {
+  getexamplesserviceshelloPositiveTest,
+  method,
+  requestBody,
+  expectedOutput,
+  path
+};
 
  ```
+
+Note that the assertions are pretty open. Please feel free to use any time of lodash or other methods you see fit!
 
 Continue this until your tests are passing! If your swagger.json file changes, you can update it using:
 
