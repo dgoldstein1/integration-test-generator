@@ -96,7 +96,7 @@ let copyTests = function(path, tests, callback) {
       commands.push({
         filePath,
         fileID: generatefileID(e, testObject.name),
-        content: testObject.test
+        testObject
       });
     }
   }
@@ -107,15 +107,20 @@ let copyTests = function(path, tests, callback) {
 };
 
 // helper for creating js file with content as default export
-let _createFileHelper = ({ filePath, fileID, content }, callback) => {
+let _createFileHelper = ({ filePath, fileID, testObject }, callback) => {
   let command =
     "createIntegrationTestFile " +
     filePath +
     " " +
     fileID +
     ' "' +
-    content +
+    testObject.test +
+    '" "' +
+    testObject.header +
+    '" "' +
+    testObject.footer +
     '"';
+
   execute(command, err => {
     if (err) {
       console.error(err);

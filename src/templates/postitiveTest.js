@@ -20,7 +20,11 @@ let positiveTest = (sampleRequest, sampleResponse, method) => {
       sampleResponse,
       method
     ),
-    footer: headersAndFooters.createFooter(sampleRequest, "PositiveTest"),
+    footer: headersAndFooters.createFooter(
+      sampleRequest,
+      "PositiveTest",
+      method
+    ),
     test: test.replace(/\n|\r/g, "")
   };
 };

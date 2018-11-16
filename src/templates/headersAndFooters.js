@@ -36,9 +36,9 @@ let createHeader = (sampleRequest, sampleResponse, method) => {
   return header.replace(/\n|\r|\t/g, "");
 };
 
-let createFooter = (sampleRequest, testType) => {
+let createFooter = (sampleRequest, testType, method) => {
   let pathname = sampleRequest.request.pathname;
-  let fileId = generatefileID(pathname, testType);
+  let fileId = generatefileID(method + pathname, testType);
   let footer = `export {${fileId}, method, requestBody, expectedOutput, path};`;
   return footer.replace(/\n|\r/g, "");
 };
