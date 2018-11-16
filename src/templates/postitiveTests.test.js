@@ -59,7 +59,7 @@ describe("templates", () => {
       execute(
         `> ${testFile} && echo "module.exports = {test  : ${
           test.test
-        }}" >> ${testFile} && prettier ${testFile}`,
+        }}" >> ${testFile} && prettier --write ${testFile}`,
         callback
       );
     });
