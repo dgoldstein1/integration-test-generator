@@ -31,7 +31,7 @@ describe("templates", () => {
       let mappingString = template(mockTests, "out");
 
       let stringExports = `export default {'get/examples/services/hello':{'getexamplesserviceshelloPositiveTest':{'name':'PositiveTest','ID':'getexamplesserviceshelloPositiveTest','test':getexamplesserviceshelloPositiveTest},'getexamplesserviceshelloNegativeTest':{'name':'NegativeTest','ID':'getexamplesserviceshelloNegativeTest','test':getexamplesserviceshelloNegativeTest}}};`;
-      let stringTests = `import getexamplesserviceshelloPositiveTest from './getexamplesserviceshelloPositiveTest';import getexamplesserviceshelloNegativeTest from './getexamplesserviceshelloNegativeTest';`;
+      let stringTests = `import { getexamplesserviceshelloPositiveTest } from './getexamplesserviceshelloPositiveTest';import { getexamplesserviceshelloNegativeTest } from './getexamplesserviceshelloNegativeTest';`;
 
       expect(mappingString.includes(stringExports)).toEqual(true);
       expect(mappingString.includes(stringTests)).toEqual(true);

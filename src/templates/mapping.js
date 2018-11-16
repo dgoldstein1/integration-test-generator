@@ -40,7 +40,7 @@ let mapping = tests => {
   // return stringified file
   return `
     // mapping.js
-    ${imports.map(id => `import ${id} from './${id}';`).join("")}
+    ${imports.map(id => `import { ${id} } from './${id}';`).join("")}
 
     export default ${mapping};
   `;

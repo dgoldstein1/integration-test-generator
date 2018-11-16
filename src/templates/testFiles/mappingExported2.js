@@ -1,10 +1,10 @@
 // mapping.js
-import deletespacesidPositiveTest from "./deletespacesidPositiveTest";
-import getlistSpacesPositiveTest from "./getlistSpacesPositiveTest";
-import getpermissionPositiveTest from "./getpermissionPositiveTest";
-import getspacesidPositiveTest from "./getspacesidPositiveTest";
-import patchspacesidPositiveTest from "./patchspacesidPositiveTest";
-import postspacesPositiveTest from "./postspacesPositiveTest";
+import { deletespacesidPositiveTest } from "./deletespacesidPositiveTest";
+import { getlistSpacesPositiveTest } from "./getlistSpacesPositiveTest";
+import { getpermissionPositiveTest } from "./getpermissionPositiveTest";
+import { getspacesidPositiveTest } from "./getspacesidPositiveTest";
+import { patchspacesidPositiveTest } from "./patchspacesidPositiveTest";
+import { postspacesPositiveTest } from "./postspacesPositiveTest";
 
 export default {
   "delete/spaces/{id}": {
