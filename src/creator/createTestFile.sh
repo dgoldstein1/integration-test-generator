@@ -4,6 +4,8 @@
 filePath=$1
 fileName=$2
 testFunction=$3
+header=$4
+footer=$5
 fullFileName="$filePath/$fileName.js"
 
 if [[ ! -f $fullFileName ]]; then
@@ -14,7 +16,9 @@ if [[ ! -f $fullFileName ]]; then
     echo "import endpoint from '../definitions/endpoint'" >> $fullFileName
     echo "import _ from 'lodash'" >> $fullFileName
     echo "" >> $fullFileName
-    echo "export default $testFunction" >> $fullFileName
+    echo $header >> $fullFileName
+    echo "let $fileName = $testFunction" >> $fullFileName
+    echo $footer >> $fullFileName
     npm run pretty $fullFileName
 fi
 

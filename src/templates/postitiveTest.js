@@ -10,29 +10,8 @@ const headersAndFooters = require("./headersAndFooters");
  * @return {json} test { name : "string", test : function(), success : undefined }
  **/
 let positiveTest = (sampleRequest, sampleResponse, method) => {
-  // get endpoint to send the request
-  let pathname = sampleRequest.request.pathname;
-  // stringify and "" => '' for request
-  let parsedSampleRequest = JSON.stringify(sampleRequest.request.body || {});
-  parsedSampleRequest = parsedSampleRequest.replace(new RegExp('"', "g"), "'");
-  // stringify and "" => '' for response
-  let parsedSampleResponse = JSON.stringify(
-    sampleResponse.responses["200"] || {}
-  );
-  parsedSampleResponse = parsedSampleResponse.replace(
-    new RegExp('"', "g"),
-    "'"
-  );
   // create test file
-  let test = `function() {
-    return api['${String(
-      method
-    )}'](endpoint + '${pathname}',${parsedSampleRequest}).then(res => {
-      return Promise.resolve({
-        success: _.isEqual(res.data, ${parsedSampleResponse})
-      });
-    });
-  }`;
+  let test = `function() {return api[method.toLowerCase()](endpoint + path, requestBody)}`;
   // remove white space from string
   return {
     name: "PositiveTest",
