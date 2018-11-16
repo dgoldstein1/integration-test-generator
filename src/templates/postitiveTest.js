@@ -1,5 +1,7 @@
 // postitiveTest.js
 
+const headersAndFooters = require("./headersAndFooters");
+
 /**
  * simple assertion of request === response
  * @param {json} sample request
@@ -11,24 +13,35 @@ let positiveTest = (sampleRequest, sampleResponse, method) => {
   // get endpoint to send the request
   let pathname = sampleRequest.request.pathname;
   // stringify and "" => '' for request
-  sampleRequest = JSON.stringify(sampleRequest.request.body || {});
-  sampleRequest = sampleRequest.replace(new RegExp('"', "g"), "'");
+  let parsedSampleRequest = JSON.stringify(sampleRequest.request.body || {});
+  parsedSampleRequest = parsedSampleRequest.replace(new RegExp('"', "g"), "'");
   // stringify and "" => '' for response
-  sampleResponse = JSON.stringify(sampleResponse.responses["200"] || {});
-  sampleResponse = sampleResponse.replace(new RegExp('"', "g"), "'");
+  let parsedSampleResponse = JSON.stringify(
+    sampleResponse.responses["200"] || {}
+  );
+  parsedSampleResponse = parsedSampleResponse.replace(
+    new RegExp('"', "g"),
+    "'"
+  );
   // create test file
   let test = `function() {
     return api['${String(
       method
-    )}'](endpoint + '${pathname}',${sampleRequest}).then(res => {
+    )}'](endpoint + '${pathname}',${parsedSampleRequest}).then(res => {
       return Promise.resolve({
-        success: _.isEqual(res.data, ${sampleResponse})
+        success: _.isEqual(res.data, ${parsedSampleResponse})
       });
     });
   }`;
   // remove white space from string
   return {
     name: "PositiveTest",
+    header: headersAndFooters.createHeader(
+      sampleRequest,
+      sampleResponse,
+      method
+    ),
+    footer: headersAndFooters.createFooter(sampleRequest, "PositiveTest"),
     test: test.replace(/\n|\r/g, "")
   };
 };

@@ -11,6 +11,9 @@ var generatefileID = require("../generator/generateFileID");
  **/
 let createHeader = (sampleRequest, sampleResponse, method) => {
   // get endpoint to send the request
+  if (sampleRequest.request === undefined) {
+    console.log(JSON.stringify(sampleRequest));
+  }
   let pathname = sampleRequest.request.pathname;
   // stringify and "" => '' for request
   sampleRequest = JSON.stringify(sampleRequest.request.body || {});
@@ -30,7 +33,7 @@ let createHeader = (sampleRequest, sampleResponse, method) => {
     let method = ${method.toUpperCase()};
     let expectedOutput = ${sampleResponse};
   `;
-  return header;
+  return header.replace(/\n|\r|\t/g, "");
 };
 
 let createFooter = (sampleRequest, testType) => {

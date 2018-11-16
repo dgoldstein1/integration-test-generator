@@ -61,9 +61,9 @@ describe("templates", () => {
     });
     describe("creates footer", () => {
       expect(
-        headersAndFooters.createFooter(sampleRequest, "positiveTest")
+        headersAndFooters.createFooter(sampleRequest, "PositiveTest")
       ).toContain(
-        "export {listSpacespositiveTest, method, requestBody, expectedOutput, path};"
+        "export {listSpacesPositiveTest, method, requestBody, expectedOutput, path};"
       );
     });
   });
