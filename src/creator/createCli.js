@@ -11,7 +11,7 @@ var generatefileID = require("../generator/generateFileID");
  * @param {function} callback
  **/
 let init = (out, tests, callback) => {
-  let args = _createCliTests(tests, out);
+  let args = _createCliTests(tests, out + "/src/cli");
   chain(undefined, -1, _createCliFile, args, callback);
 };
 
@@ -37,7 +37,7 @@ let _createCliTests = (tests, out) => {
     for (let testName in tests[endpoint]) {
       cliTestArray.push({
         test: cliTemplate.generateFileFromTemplate(endpoint, testName),
-        fileName: generatefileID(endpoint, testName),
+        fileName: generatefileID(endpoint, testName) + "cli.test.js",
         filePath: out
       });
     }

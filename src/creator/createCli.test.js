@@ -49,7 +49,7 @@ describe("creator", () => {
         let test =
           '\n  const testEndpoint = require("../definitions/testEndpoint");\n  const getexamplesserviceshelloPositiveTest = require("../tests/getexamplesserviceshelloPositiveTest");\n  var exec = require("child_process").exec;\n\n  describe("get/examples/services/hello", () => {\n    test("PositiveTest", done => {\n      let callback = (err, stdOut, stdError) => {\n\n\n        try {\n          expect(err).toBeFalsy();\n          expect(() => JSON.parse(stdOut)).not.toThrow();\n          if (getexamplesserviceshelloPositiveTest.expectedOutput !== undefined) {\n            expect(JSON.parse(stdOut)).toEqual(getexamplesserviceshelloPositiveTest.expectedOutput);\n          }\n          done();\n        } catch (e) { \n          done.fail(e + stdOut + err);\n        }\n      }\n\n\n      let command = "./src/cli/make_request.sh " + endpoint + getexamplesserviceshelloPositiveTest.method + " " + JSON.stringify(body);\n      let endpoint = testEndpoint.default + getexamplesserviceshelloPositiveTest.path;\n      let body = getexamplesserviceshelloPositiveTest.requestBody || {};\n      exec(command, callback);\n    })\n  })\n  ';
         let filePath = `${path}/src/creator/testFiles`;
-        let fileName = "createdTestCliFile.cli-test.js";
+        let fileName = "createdTestCliFile";
         let callback = (err, stdOut) => {
           expect(err).toBeFalsy();
           done();
@@ -65,7 +65,7 @@ describe("creator", () => {
           done();
         };
         callback();
-        let out = `${path}/src/creator/testFiles/src/cli`;
+        let out = `${path}/src/creator/testFiles`;
         cli.init(out, tests, callback);
       });
 
