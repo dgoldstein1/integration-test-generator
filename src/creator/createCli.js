@@ -1,6 +1,9 @@
 // createCli.js
 
 const cliTemplate = require("../templates/cli");
+var execute = require("../utils/execute");
+var chain = require("../utils/chain");
+var generatefileID = require("../generator/generateFileID");
 
 /**
  * @param {string} out directory
@@ -8,13 +11,23 @@ const cliTemplate = require("../templates/cli");
  * @param {function} callback
  **/
 let init = (out, tests, callback) => {
-  console.log(JSON.stringify(tests));
-  callback();
+  let args = _createCliTests(tests);
+  chain(undefined, -1, _createCliFile, args, callback);
+};
+
+/**
+ * creates one cli file
+ * @param {json} with test and fullFileName attributes
+ * @param {function} callback
+ **/
+let _createCliFile = ({ fullFileName, test }, callback) => {
+  let command = `createCliFile ${fullFileName} '${test}'`;
+  execute(command, callback);
 };
 
 /**
  * @param {json} test objects in mapping
- * @return {array[json]} { test : testFile (string) , name : full (string) }
+ * @return {array[json]} { test : testFile (string) , fullFileName : full (string) }
  **/
 let _createCliTests = tests => {
   let cliTestArray = [];
@@ -23,7 +36,7 @@ let _createCliTests = tests => {
     for (let testName in tests[endpoint]) {
       cliTestArray.push({
         test: cliTemplate.generateFileFromTemplate(endpoint, testName),
-        name: testName
+        fullFileName: generatefileID(endpoint, testName)
       });
     }
   }
@@ -32,5 +45,6 @@ let _createCliTests = tests => {
 
 module.exports = {
   init,
-  _createCliTests
+  _createCliTests,
+  _createCliFile
 };

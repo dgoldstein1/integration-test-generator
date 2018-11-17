@@ -5,6 +5,7 @@
 fullFileName=$1
 test=$2
 
+
 # only create if does not already exist
 if [[ ! -f $fullFileName ]]; then
 	# create path and empty file
