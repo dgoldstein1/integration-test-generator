@@ -59,12 +59,5 @@ describe("templates", () => {
         `let expectedOutput = {'count':'DYD','spaces':[{'ID':'YrTCZYEJ','name':'ALeXKpX','creator':'zcaIGtyGIwZ','created':'ugCwMNYmZ','numberOfMembers':'hDQgaXZVOk'}]};`
       );
     });
-    describe("creates footer", () => {
-      expect(
-        headersAndFooters.createFooter(sampleRequest, "PositiveTest", "post")
-      ).toContain(
-        "export {postlistSpacesPositiveTest, method, requestBody, expectedOutput, path};"
-      );
-    });
   });
 });
