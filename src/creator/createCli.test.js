@@ -25,24 +25,22 @@ describe("creator", () => {
       }
     };
     describe("_createCliTests", () => {
-      let generatedArray = cli._createCliTests(tests);
+      let outDir = "out";
+      let generatedArray = cli._createCliTests(tests, outDir);
       it("returns an array", () => {
         expect(generatedArray).toBeType("array");
       });
       it("returns values in correct format", () => {
         expect(generatedArray.length).toBeGreaterThan(0);
         expect(generatedArray[0].test).toBeType("string");
-        expect(generatedArray[0].fullFileName).toBeType("string");
+        expect(generatedArray[0].filePath).toBeType("string");
+        expect(generatedArray[0].fileName).toBeType("string");
       });
-      it("matches expected values", () => {
-        let expectedResult = [
-          {
-            test:
-              '\n  const testEndpoint = require("../definitions/testEndpoint");\n  const getexamplesserviceshelloPositiveTest = require("../tests/getexamplesserviceshelloPositiveTest");\n  var exec = require("child_process").exec;\n\n  describe("get/examples/services/hello", () => {\n    test("PositiveTest", done => {\n      let callback = (err, stdOut, stdError) => {\n\n\n        try {\n          expect(err).toBeFalsy();\n          expect(() => JSON.parse(stdOut)).not.toThrow();\n          if (getexamplesserviceshelloPositiveTest.expectedOutput !== undefined) {\n            expect(JSON.parse(stdOut)).toEqual(getexamplesserviceshelloPositiveTest.expectedOutput);\n          }\n          done();\n        } catch (e) { \n          done.fail(e + stdOut + err);\n        }\n      }\n\n\n      let command = "./src/cli/make_request.sh " + endpoint + getexamplesserviceshelloPositiveTest.method + " " + JSON.stringify(body);\n      let endpoint = testEndpoint.default + getexamplesserviceshelloPositiveTest.path;\n      let body = getexamplesserviceshelloPositiveTest.requestBody || {};\n      exec(command, callback);\n    })\n  })\n  ',
-            fullFileName: "getexamplesserviceshelloPositiveTest"
-          }
-        ];
-        expect(generatedArray).toEqual(expectedResult);
+      it("generates expected values", () => {
+        expect(generatedArray[0].filePath).toEqual("out");
+        expect(generatedArray[0].fileName).toEqual(
+          "getexamplesserviceshelloPositiveTest"
+        );
       });
     });
 
@@ -50,12 +48,13 @@ describe("creator", () => {
       it("creates parseable file successfully", done => {
         let test =
           '\n  const testEndpoint = require("../definitions/testEndpoint");\n  const getexamplesserviceshelloPositiveTest = require("../tests/getexamplesserviceshelloPositiveTest");\n  var exec = require("child_process").exec;\n\n  describe("get/examples/services/hello", () => {\n    test("PositiveTest", done => {\n      let callback = (err, stdOut, stdError) => {\n\n\n        try {\n          expect(err).toBeFalsy();\n          expect(() => JSON.parse(stdOut)).not.toThrow();\n          if (getexamplesserviceshelloPositiveTest.expectedOutput !== undefined) {\n            expect(JSON.parse(stdOut)).toEqual(getexamplesserviceshelloPositiveTest.expectedOutput);\n          }\n          done();\n        } catch (e) { \n          done.fail(e + stdOut + err);\n        }\n      }\n\n\n      let command = "./src/cli/make_request.sh " + endpoint + getexamplesserviceshelloPositiveTest.method + " " + JSON.stringify(body);\n      let endpoint = testEndpoint.default + getexamplesserviceshelloPositiveTest.path;\n      let body = getexamplesserviceshelloPositiveTest.requestBody || {};\n      exec(command, callback);\n    })\n  })\n  ';
-        let fullFileName = `${path}/src/creator/testFiles/createdTestCliFile.cli-test.js`;
+        let filePath = `${path}/src/creator/testFiles`;
+        let fileName = "createdTestCliFile.cli-test.js";
         let callback = (err, stdOut) => {
           expect(err).toBeFalsy();
           done();
         };
-        cli._createCliFile({ test, fullFileName }, callback);
+        cli._createCliFile({ test, filePath, fileName }, callback);
       });
     });
 
@@ -67,7 +66,7 @@ describe("creator", () => {
         };
         callback();
         let out = `${path}/src/creator/testFiles/src/cli`;
-        // cli.init(out, tests, callback)
+        cli.init(out, tests, callback);
       });
 
       it("creates correct files", () => {

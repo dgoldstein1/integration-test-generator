@@ -1,9 +1,10 @@
 #!/bin/bash
 
 # createCliFile.sh
-
-fullFileName=$1
-test=$2
+filePath=$1
+fileName=$2
+testFunction=$3
+fullFileName="$filePath/$fileName"
 
 
 # only create if does not already exist
@@ -13,6 +14,6 @@ if [[ ! -f $fullFileName ]]; then
 	mkdir -p "$filePath"
     > $fullFileName
 
-    echo "$test" >> $fullFileName
+    echo "$testFunction" >> $fullFileName
     npm run pretty $fullFileName
 fi

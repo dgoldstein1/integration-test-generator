@@ -18,9 +18,10 @@ describe("templates", () => {
       let cliTest = cli.generateFileFromTemplate(endpoint, name);
 
       let fileId = generatefileID(endpoint, name);
-      let fullFilePath = `${path}/src/templates/testFiles/${fileId}.cli-test.js`;
+      let filePath = `${path}/src/templates/testFiles`;
+      let fileName = `${fileId}.cli-test.js`;
 
-      let command = `${path}/src/creator/createCliFile.sh ${fullFilePath} '${cliTest}'`;
+      let command = `${path}/src/creator/createCliFile.sh ${filePath} ${fileName} '${cliTest}'`;
       execute(command, callback);
     });
   });

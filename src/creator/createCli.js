@@ -11,7 +11,7 @@ var generatefileID = require("../generator/generateFileID");
  * @param {function} callback
  **/
 let init = (out, tests, callback) => {
-  let args = _createCliTests(tests);
+  let args = _createCliTests(tests, out);
   chain(undefined, -1, _createCliFile, args, callback);
 };
 
@@ -20,23 +20,25 @@ let init = (out, tests, callback) => {
  * @param {json} with test and fullFileName attributes
  * @param {function} callback
  **/
-let _createCliFile = ({ fullFileName, test }, callback) => {
-  let command = `createCliFile ${fullFileName} '${test}'`;
+let _createCliFile = ({ test, fileName, filePath }, callback) => {
+  let command = `createCliFile ${filePath} ${fileName} '${test}'`;
   execute(command, callback);
 };
 
 /**
+ * @param {string} out directory
  * @param {json} test objects in mapping
  * @return {array[json]} { test : testFile (string) , fullFileName : full (string) }
  **/
-let _createCliTests = tests => {
+let _createCliTests = (tests, out) => {
   let cliTestArray = [];
 
   for (let endpoint in tests) {
     for (let testName in tests[endpoint]) {
       cliTestArray.push({
         test: cliTemplate.generateFileFromTemplate(endpoint, testName),
-        fullFileName: generatefileID(endpoint, testName)
+        fileName: generatefileID(endpoint, testName),
+        filePath: out
       });
     }
   }
