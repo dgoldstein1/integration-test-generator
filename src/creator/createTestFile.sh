@@ -21,7 +21,7 @@ if [[ ! -f $fullFileName ]]; then
     echo "let $fileName = $testFunction" >> $fullFileName
 
     echo "// footer, configured this way for testing" >> $fullFileName
-    echo $footer >> $fullFileName
+    echo "export {$fileName, method, requestBody, expectedOutput, path}" >> $fullFileName
     npm run pretty $fullFileName
 fi
 

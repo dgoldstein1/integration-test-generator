@@ -11,7 +11,7 @@ let generateFileFromTemplate = (endpoint, name) => {
 
   // create test file
   let test = `
-  const testEndpoint = require("../definitions/testEndpoint");
+  const testEndpoint = require("../definitions/cliEndpoint");
   const ${fileId} = require("../tests/${fileId}");
   var exec = require("child_process").exec;
 
@@ -33,9 +33,9 @@ let generateFileFromTemplate = (endpoint, name) => {
       }
 
 
-      let command = "./src/cli/make_request.sh " + endpoint + ${fileId}.method + " " + JSON.stringify(body);
       let endpoint = testEndpoint.default + ${fileId}.path;
       let body = ${fileId}.requestBody || {};
+      let command = "./src/cli/make_request.sh " + endpoint + ${fileId}.method + " " + JSON.stringify(body);
       exec(command, callback);
     })
   })
