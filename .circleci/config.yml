@@ -25,6 +25,7 @@ jobs:
       - run: mkdir ./bin
       - run: cp $ROOT_DIR/src/creator/createApp.sh ./bin/createIntegrationTestApp
       - run: cp $ROOT_DIR/src/creator/createTestFile.sh ./bin/createIntegrationTestFile
+      - run: cp $ROOT_DIR/src/creator/createCliFile.sh ./bin/createCliFile
       
       - run: echo 'export PATH=$ROOT_DIR/bin:$PATH' >> $BASH_ENV
       # Download and cache dependencies
