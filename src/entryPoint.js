@@ -65,7 +65,7 @@ let createUI = tests => {
 
 // creates cli folder from tests
 let createCli = tests => {
-  cli.init(tests, err => {
+  cli.init(args.out, tests, err => {
     logger.logAndExitOnError("Created command line interface");
   });
 };
