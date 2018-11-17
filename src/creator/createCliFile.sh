@@ -11,4 +11,7 @@ if [[ ! -f $fullFileName ]]; then
 	echo $fullFileName
 	mkdir -p "$filePath"
     > $fullFileName
+
+    echo "$test" >> $fullFileName
+    npm run pretty $fullFileName
 fi
