@@ -9,6 +9,7 @@ const argParser = require("./parser/argParser");
 
 // creators
 const createApp = require("./creator/createApp");
+const cli = require("./creator/createCli");
 
 // generators
 const generateTests = require("./generator/generateTests");
@@ -50,12 +51,21 @@ let createUI = tests => {
       args.generateOnly,
       err => {
         logger.logAndExitOnError("Created app with tests", err);
+        createCli(tests);
       }
     );
   } else {
     // create only tests
     createApp.copyTests(args.out, tests, err => {
       logger.logAndExitOnError("Created app with tests", err);
+      createCli(tests);
     });
   }
+};
+
+// creates cli folder from tests
+let createCli = tests => {
+  cli.init(args.endpoint, args.out, tests, err => {
+    logger.logAndExitOnError("Created command line interface", err);
+  });
 };

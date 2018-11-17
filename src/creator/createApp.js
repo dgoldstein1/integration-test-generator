@@ -117,8 +117,6 @@ let _createFileHelper = ({ filePath, fileID, testObject }, callback) => {
     testObject.test +
     '" "' +
     testObject.header +
-    '" "' +
-    testObject.footer +
     '"';
 
   execute(command, err => {

@@ -5,7 +5,6 @@ filePath=$1
 fileName=$2
 testFunction=$3
 header=$4
-footer=$5
 fullFileName="$filePath/$fileName.js"
 
 if [[ ! -f $fullFileName ]]; then
@@ -21,7 +20,7 @@ if [[ ! -f $fullFileName ]]; then
     echo "let $fileName = $testFunction" >> $fullFileName
 
     echo "// footer, configured this way for testing" >> $fullFileName
-    echo $footer >> $fullFileName
+    echo "export {$fileName, method, requestBody, expectedOutput, path}" >> $fullFileName
     npm run pretty $fullFileName
 fi
 
