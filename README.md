@@ -5,9 +5,6 @@ Integration test generator is a fast and convient way to create integration test
 
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ce123b477e3b9b57cab8/test_coverage)](https://codeclimate.com/github/dgoldstein1/integration-test-generator/test_coverage)
 
-## Planned features:
-
- - add ci pipeline
 
 ### Prerequisites
 
@@ -120,15 +117,14 @@ integration-test-generator -swagger swaggerfile -generateOnly true
 
 Note that no existing test will be changed / updated / deleted.
 
-## Unit Tests
+## Command Line Interface
 
-Unit tests have pretty good coverage and are run on every commit to a remote branch. To run unit tests locally:
+![app](images/exampleCli.png)
 
-```sh
-# from root directory of project
-export ROOT_DIR=$(pwd)
-npm test
-```
+This projects ships with a nice command line interface for running integration tests, which can be used during development and in CI pipelines. For any integration test you generate in the `/src/test/` folder of the created project, there is a file in `src/cli/` which translates those tests into curl assertions.
+
+Because test requests are written in curl, it is also easy to setup TLS. To do this, edit the `make_requests` file in the `cli` directory to set `USE_TLS` to `true`, and copy over your client certificates. Don't forget to exclude these certs from .gitignore!
+
 
 ## Docker 
 
@@ -149,6 +145,20 @@ integration-tests:
     - '3000:3000'
   environment:
     - NODE_ENV=development
+```
+
+# Contributing to This Project
+
+Before anything, please read [contributing](CONTRIBUTING) guide.
+
+## Unit Tests
+
+Unit tests have pretty good coverage and are run on every commit to a remote branch. To run unit tests locally:
+
+```sh
+# from root directory of project
+export ROOT_DIR=$(pwd)
+npm test
 ```
 
 ## Authors
