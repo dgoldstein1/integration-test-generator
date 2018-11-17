@@ -1,4 +1,4 @@
-const testEndpoint = require("../definitions/endpoint");
+const testEndpoint = require("../definitions/testEndpoint");
 const getexamplesserviceshelloPositiveTest = require("../tests/getexamplesserviceshelloPositiveTest");
 var exec = require("child_process").exec;
 

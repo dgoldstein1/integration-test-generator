@@ -39,7 +39,7 @@ describe("creator", () => {
       it("generates expected values", () => {
         expect(generatedArray[0].filePath).toEqual("out");
         expect(generatedArray[0].fileName).toEqual(
-          "getexamplesserviceshelloPositiveTest"
+          "getexamplesserviceshelloPositiveTestcli.test.js"
         );
       });
     });
