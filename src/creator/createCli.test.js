@@ -59,18 +59,13 @@ describe("creator", () => {
     });
 
     describe("init", () => {
+      let out = `${path}/src/creator/testFiles`;
       it("returns on callback without error", done => {
         let callback = (err, stdOut) => {
           expect(err).toBeFalsy();
           done();
         };
-        callback();
-        let out = `${path}/src/creator/testFiles`;
-        cli.init(out, tests, callback);
-      });
-
-      it("creates correct files", () => {
-        expect(false);
+        cli.init("endpoint", out, tests, callback);
       });
     });
   });

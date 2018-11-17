@@ -10,7 +10,8 @@ var generatefileID = require("../generator/generateFileID");
  * @param {json} test mappings
  * @param {function} callback
  **/
-let init = (out, tests, callback) => {
+let init = (endpoint, out, tests, callback) => {
+  // first create testEndpoint definition
   let args = _createCliTests(tests, out + "/src/cli");
   chain(undefined, -1, _createCliFile, args, callback);
 };
