@@ -35,7 +35,7 @@ let generateFileFromTemplate = (endpoint, name) => {
 
       let endpoint = testEndpoint.default + ${fileId}.path;
       let body = ${fileId}.requestBody || {};
-      let command = "./src/cli/make_request.sh " + endpoint + ${fileId}.method + " " + JSON.stringify(body);
+      let command = "./src/cli/make_request.sh " + endpoint + " " + ${fileId}.method + " " + JSON.stringify(body);
       exec(command, callback);
     })
   })

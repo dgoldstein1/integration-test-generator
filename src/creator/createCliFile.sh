@@ -15,5 +15,5 @@ if [[ ! -f $fullFileName ]]; then
     > $fullFileName
 
     echo "$testFunction" >> $fullFileName
-    npm run pretty $fullFileName
+    cd $filePath && npm run pretty $fileName
 fi
