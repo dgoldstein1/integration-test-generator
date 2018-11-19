@@ -21,6 +21,6 @@ if [[ ! -f $fullFileName ]]; then
 
     echo "// footer, configured this way for testing" >> $fullFileName
     echo "export {$fileName, method, requestBody, expectedOutput, path}" >> $fullFileName
-    npm run pretty $fullFileName
+    cd $filePath && npm run pretty $fileName
 fi
 
