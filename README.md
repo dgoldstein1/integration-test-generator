@@ -152,15 +152,12 @@ Unit tests have pretty good coverage and are run on every commit to a remote bra
 
 ```sh
 # from root directory of project
-export ROOT_DIR=$(pwd)
 npm test
 ```
 
 ## Authors
 
 * **David Goldstein** - [DavidCharlesGoldstein.com](http://www.davidcharlesgoldstein.com/?github-integration-test-generator) - [Decipher Technology Studios](http://deciphernow.com/)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## License
 
