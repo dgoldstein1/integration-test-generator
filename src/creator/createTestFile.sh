@@ -7,20 +7,19 @@ testFunction=$3
 header=$4
 fullFileName="$filePath/$fileName.js"
 
-if [[ ! -f $fullFileName ]]; then
-	echo $fullFileName
-	mkdir -p "$filePath"
-    > $fullFileName
-    echo "" >> $fullFileName
 
-    echo "// replace code here" >> $fullFileName
-    echo $header >> $fullFileName
+echo "creating $fullFileName"
+mkdir -p "$filePath"
+> $fullFileName
+echo "" >> $fullFileName
 
-    echo "// method run during testing" >> $fullFileName
-    echo "let $fileName = $testFunction" >> $fullFileName
+echo "// replace code here" >> $fullFileName
+echo $header >> $fullFileName
 
-    echo "// footer, configured this way for testing" >> $fullFileName
-    echo "export {$fileName, method, requestBody, expectedOutput, path}" >> $fullFileName
-    cd $filePath && npm run pretty $fileName
-fi
+echo "// method run during testing" >> $fullFileName
+echo "let $fileName = $testFunction" >> $fullFileName
+
+echo "// footer, configured this way for testing" >> $fullFileName
+echo "export {$fileName, method, requestBody, expectedOutput, path}" >> $fullFileName
+cd $filePath && npm run pretty $fullFileName
 
