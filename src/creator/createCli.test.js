@@ -2,12 +2,23 @@
 
 const cli = require("./createCli");
 const { toBeType } = require("jest-tobetype");
+const execute = require("../utils/execute");
 
 let path = process.env.ROOT_DIR;
 
 describe("creator", () => {
   expect.extend({
     toBeType
+  });
+
+  let testFile = `${path}/src/creator/testFiles/src/cli/getexamplesserviceshelloPositiveTestcli.test.js`;
+
+  beforeEach(done => {
+    execute(`> ${testFile}`, () => done());
+  });
+
+  afterEach(done => {
+    execute(`rm -rf ${testFile}`, () => done());
   });
 
   describe("cli", () => {

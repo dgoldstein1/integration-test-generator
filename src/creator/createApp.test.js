@@ -19,7 +19,7 @@ describe("createApp", () => {
       execute(`rm ${createdFile}`, () => done());
     });
 
-    it.skip("creates javascript file without error", done => {
+    it("creates javascript file without error", done => {
       // The first argument of the first call to the function was 'hello'
       let callback = error => {
         // validate no error was thrown on running prettier
