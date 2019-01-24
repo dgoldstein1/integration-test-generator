@@ -4,7 +4,7 @@ let createApp = require("./createApp");
 let mockTestsObject = require("./mocks/tests");
 var execute = require("../utils/execute");
 
-let path = process.env.ROOT_DIR + "src/creator/testFiles";
+let path = process.env.ROOT_DIR + "/src/creator/testFiles";
 
 describe("createApp", () => {
   describe("copyTests", () => {
