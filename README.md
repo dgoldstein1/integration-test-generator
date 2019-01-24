@@ -19,12 +19,7 @@ You will need
 # clone the package
 git clone https://github.com/dgoldstein1/integration-test-generator.git
 # generate symbolic links
-cd integration-test-generator
-sudo ./create_symbolic_links.sh
-# install packages
-npm install
-# run tests
-npm test
+cd integration-test-generator && sudo ./setup.sh
 # run the generator
 cd some-backend-project-with-a-swagger-file
 integration-test-generator -swagger src/parser/mocks/goodSwagger.json  -out mock-integration-tests -endpoint https://localhost:8080 -npmPackageName test

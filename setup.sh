@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# create_symbolic_links.sh
+# setup.sh
 
 # creates symbolic links for required scripts to be used
 # system wide
@@ -14,3 +14,11 @@ ln -f ./src/creator/createTestFile.sh /usr/local/bin/createIntegrationTestFile
 # create cli integration test file
 ln -f ./src/creator/createCliFile.sh /usr/local/bin/createCliFile
 
+# set ROOT_DIR to this directory
+export ROOT_DIR=$(pwd)
+
+# install dependencies
+npm install
+
+# run tests
+npm test -- --coverage
