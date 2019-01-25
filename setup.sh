@@ -5,6 +5,8 @@
 # creates symbolic links for required scripts to be used
 # system wide
 
+npm link
+
 # createIntegrationTestApp
 ln -f ./src/creator/createApp.sh /usr/local/bin/createIntegrationTestApp
 
