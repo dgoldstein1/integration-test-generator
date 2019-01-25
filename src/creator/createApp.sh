@@ -16,7 +16,7 @@ mkdir -p $1 && cd $1
 log_success_or_failure "Created dir $1"
 
 # clone repo
-git clone https://github.com/dgoldstein1/swagger-integration-test-UI.git .
+git clone https://github.com/dgoldstein1/swagger-integration-test-UI.git . && rm -rf swagger-integration-test-UI/.git
 log_success_or_failure "cloning repo"
 
 # install
