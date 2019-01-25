@@ -1,5 +1,5 @@
 // mapping.js
-import getexamplesserviceshelloPositiveTest from "./getexamplesserviceshelloPositiveTest";
+import { getexamplesserviceshelloPositiveTest } from "./getexamplesserviceshelloPositiveTest";
 
 export default {
   "get/examples/services/hello": {

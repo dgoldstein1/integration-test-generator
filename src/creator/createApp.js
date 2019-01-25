@@ -48,7 +48,7 @@ let createApp = function(
         execute(command, err => {
           if (err) return callback(err);
           // let's create the endpoint file
-          command = `> ${path}/src/definitions/endpoint.js && echo "export default '${endpoint}'" >> ${path}/src/definitions/endpoint.js && find ${path}/src -name "*test.js" -type f -delete && cd ${path} && npm run pretty ./src/*`;
+          command = `> ${path}/src/definitions/endpoint.js && echo "export default '${endpoint}'" >> ${path}/src/definitions/endpoint.js && find ${path}/src -name "*test.js" -type f -delete && cd ${path} && npm run pretty ${path}/src/*`;
           console.log("bash$ " + command);
           execute(command, callback);
         });
@@ -72,7 +72,7 @@ let createMappingFile = function(
   let filePath = path + "/src/tests/mapping.js";
   // write to file and run prettier
   execute(
-    `> ${filePath} && echo "${mapping}" >> ${filePath} && cd ${path} && npm run pretty ./src/tests/mapping.js`,
+    `> ${filePath} && echo "${mapping}" >> ${filePath} && cd ${path} && npm run pretty ${path}/src/tests/mapping.js`,
     callback
   );
 };

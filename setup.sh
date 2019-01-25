@@ -1,9 +1,11 @@
 #!/bin/bash
 
-# create_symbolic_links.sh
+# setup.sh
 
 # creates symbolic links for required scripts to be used
 # system wide
+
+npm link
 
 # createIntegrationTestApp
 ln -f ./src/creator/createApp.sh /usr/local/bin/createIntegrationTestApp
@@ -14,3 +16,8 @@ ln -f ./src/creator/createTestFile.sh /usr/local/bin/createIntegrationTestFile
 # create cli integration test file
 ln -f ./src/creator/createCliFile.sh /usr/local/bin/createCliFile
 
+# install dependencies
+npm install
+
+# run tests
+npm test

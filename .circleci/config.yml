@@ -52,7 +52,12 @@ jobs:
       # run tests!
       - run: npm run test -- --coverage --coveragePathIgnorePatterns="src/templates/testFiles/*" --bail --ci
       # send coverage report to code-climate
-      - run: ./cc-test-reporter after-build -t lcov
+      - run: 
+          name : "push tests to cc"
+          command : |
+            if [[ "$CIRCLE_BRANCH" == "master" ]]; then
+              ./cc-test-reporter after-build -t lcov
+            fi
       # run full integration test!
       - run: node ./src/entryPoint.js -swagger src/parser/mocks/goodSwagger.json  -out mock-integration-tests -endpoint https://localhost:8080 -npmPackageName test
 
